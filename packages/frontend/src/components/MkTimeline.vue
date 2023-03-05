@@ -73,15 +73,8 @@ if (props.src === 'antenna') {
 	connection2.on('follow', onChangeFollowing);
 	connection2.on('unfollow', onChangeFollowing);
 } else if (props.src === 'local') {
-	//endpoint = 'notes/local-timeline';
-        endpoint = 'notes/search-by-tag';
-        query = {
-                tag: 'precure_fun',
-        };
-        connection = stream.useChannel('hashtag', {
-                q: [['precure_fun']],
-        });
-	//connection = stream.useChannel('localTimeline');
+	endpoint = 'notes/local-timeline';
+	connection = stream.useChannel('localTimeline');
 	connection.on('note', prepend);
 } else if (props.src === 'social') {
 	endpoint = 'notes/hybrid-timeline';
