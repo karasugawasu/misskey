@@ -274,7 +274,7 @@ export class DriveService {
 			}
 		}
 
-		if (!['image/jpeg', 'image/png', 'image/webp', 'image/avif', 'image/svg+xml'].includes(type)) {
+		if (!['image/jpeg', 'image/png', 'image/avif', 'image/svg+xml'].includes(type)) {
 			this.registerLogger.debug('web image and thumbnail not created (not an required file)');
 			return {
 				webpublic: null,
