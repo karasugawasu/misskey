@@ -1636,6 +1636,7 @@ _widgets:
   photos: "フォト"
   digitalClock: "デジタル時計"
   unixClock: "UNIX時計"
+  koteitag: "実況用固定タグ"
   federation: "連合"
   instanceCloud: "サーバークラウド"
   postForm: "投稿フォーム"
