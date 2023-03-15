@@ -71,7 +71,7 @@ const getPrograms = async => {
 				if (widgetProps.programs[key].subtitle) {label = label + `「${widgetProps.programs[key].subtitle}」`};
 				if (widgetProps.programs[key].air) {label = label + 'エア番組'};
 				if (widgetProps.programs[key].livecure) {label = label + '実況用タグ'};
-				if (widgetProps.programs[key].minutes) {label = label + ` ${widgetProps.programs[key].minutes}分`}
+				if (widgetProps.programs[key].minutes) {label = label + ` ${widgetProps.programs[key].minutes}分`};
 				option.key = key;
 				option.label = label;
 				widgetProps.options[key] = option;
@@ -80,7 +80,7 @@ const getPrograms = async => {
 	})();
 }
 
-const command = "command: user_config\ntagging:\n user_tags:";
+const command = "command: user_config\ntagging:\n  user_tags:";
 
 const setPrograms = async => {
 	if (!programs.value) {
@@ -94,15 +94,18 @@ const setPrograms = async => {
 		text = command + " null"
 	}else{
 		let program = widgetProps.programs[key];
-		const tags = [];
+		let tags = [];
 		text = command + "\n";
-                tags.push(` - ${program.series}`);
-                if (program.episode) {tags.push(` - ${program.episode}${program.episode_suffix || '話'}`)};
-                if (program.subtitle) {tags.push(` - ${program.subtitle}`)};
-                if (program.air) {tags.push(' - エア番組')};
-                if (program.livecure) {tags.push(' - 実況')};
-                if (program.extra_tags) {tags.concat(program.extra_tags)};
-		if (program.minutes) {tags.push(` minutes: ${program.minutes}`)}
+                tags.push(`  - ${program.series}`);
+                if (program.episode) {tags.push(`  - ${program.episode}${program.episode_suffix || '話'}`)};
+                if (program.subtitle) {tags.push(`  - ${program.subtitle}`)};
+                if (program.air) {tags.push('  - エア番組')};
+                if (program.livecure) {tags.push('  - 実況')};
+                if (program.extra_tags) {
+			const extratags = program.extra_tags.map(t => '  -' + t);
+			tags = tags.concat(extratags);
+		}
+		if (program.minutes) {tags.push(`  minutes: ${program.minutes}`)};
 		text = text + tags.join('\n');
 	}
 
