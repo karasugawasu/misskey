@@ -1,12 +1,14 @@
 <template>
 <MkContainer :show-header="widgetProps.showHeader" :scrollable="false" class="mkw-koteitag data-cy-mkw-koteitag">
-	<MkSelect :class="$style.select" v-model="programs">
-		<template #label>実況を選択</template>
-		<option v-for="option in widgetProps.options" v-bind:value="option.key">{{option.label}}</option>
-	</MkSelect>
 	<div :class="$style.container">
-		<div :class="$style.getContainer">
-		        <MkButton class="get" @click="getPrograms">{{widgetProps.getbutton}}</MkButton>
+		<div>
+			<MkSelect :class="$style.select" v-model="programs">
+				<template #label>実況を選択</template>
+				<option v-for="option in widgetProps.options" v-bind:value="option.key">{{option.label}}</option>
+			</MkSelect>
+		</div>
+		<div>
+		        <MkButton :class="$style.button" class="get" @click="getPrograms"><i :class="$style.iconInner" class="ti ti-reload"></i></MkButton>
 		</div>
 	</div>
 </MkContainer>
@@ -84,7 +86,7 @@ const getPrograms = async => {
 
 const command = "command: user_config\ntagging:\n user_tags:";
 
-const get = async => {
+const setPrograms = async => {
 	if (!programs.value) {
 		return;
 	}
@@ -143,9 +145,12 @@ defineExpose<WidgetComponentExpose>({
 	id: props.widget ? props.widget.id : null,
 });
 
-watch([programs], () => emit('update:modelValue', get()), {
+watch([programs], () => emit('update:modelValue', setPrograms()), {
 	deep: true,
 });
+
+getPrograms();
+
 </script>
 
 <style lang="scss" module>
@@ -153,20 +158,21 @@ watch([programs], () => emit('update:modelValue', get()), {
 	padding: 5px;
 }
 .container {
-	position: relative;
-	background-size: cover;
-	background-position: center;
-	display: flex;
+	display: grid;
+	grid-template-columns: 85% 15%;
+	grid-column-gap: 5px;
+	align-items: end;
 }
-.getContainer {
-	display: inline-block;
-	text-align: center;
-	padding: 16px;
+.button {
+	margin-bottom: 5px;
+	min-width: 60%;
+	min-height: 35px;
+	padding: 0;
 }
-.sendContainer {
-	display: flex;
-	align-items: center;
-	min-width: 0;
-	padding: 0 16px 0 0;
+.iconInner {
+	display: block;
+	margin: 0 auto;
+	font-size: 12px;
 }
+
 </style>
