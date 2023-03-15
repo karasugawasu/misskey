@@ -8,9 +8,6 @@
 		<div :class="$style.getContainer">
 		        <MkButton class="get" @click="getPrograms">{{widgetProps.getbutton}}</MkButton>
 		</div>
-		<div :class="$style.sendContainer">
-			<MkButton class="send" @click="send">送信</MkButton>
-		</div>
 	</div>
 </MkContainer>
 </template>
@@ -87,7 +84,7 @@ const getPrograms = async => {
 
 const command = "command: user_config\ntagging:\n user_tags:";
 
-const send = async => {
+const get = async => {
 	if (!programs.value) {
 		return;
 	}
@@ -118,18 +115,27 @@ const send = async => {
 		visibleUserIds: []
 	};
 
-	(async function() {
-			await os.api('notes/create', postData).then(() => {
-			os.toast('送信しました');
+	os.confirm({
+		type: 'question',
+		title: 'この実況タグでよろしいでしょうか',
+		text: widgetProps.options[programs.value].label,
+	}).then(({ canceled }) => {
+		if (canceled) {
 			programs.value = null;
-		});
-	})();
+			return;
+		}
+		console.log("OK");
+
+		(async function() {
+			await os.api('notes/create', postData).then(() => {
+				os.toast('送信しました');
+				programs.value = null;
+			});
+		})();
+	});
 
 }
 
-const get = async => {
-	//
-}
 
 defineExpose<WidgetComponentExpose>({
 	name,
