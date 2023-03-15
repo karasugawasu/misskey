@@ -85,19 +85,6 @@ const getPrograms = async => {
 	})();
 }
 
-const createProgramTags = program => {
-	const tags = [];
-	if (program) {
-		tags.push(program.series);
-		if (program.episode) {tags.push(`${program.episode}${program.episode_suffix || '話'}`)};
-		if (program.subtitle) {tags.push(`「${program.subtitle}」`)};
-		if (program.air) {tags.push('エア番組')};
-		if (program.livecure) {tags.push('実況')};
-		if (program.extra_tags) {tags.concat(program.extra_tags)};
-	}
-	return tags;
-}
-
 const command = "command: user_config\ntagging:\n user_tags:";
 
 const send = async => {
@@ -116,7 +103,7 @@ const send = async => {
 		text = command + "\n";
                 tags.push(` - ${program.series}`);
                 if (program.episode) {tags.push(` - ${program.episode}${program.episode_suffix || '話'}`)};
-                if (program.subtitle) {tags.push(` - 「${program.subtitle}」`)};
+                if (program.subtitle) {tags.push(` - ${program.subtitle}`)};
                 if (program.air) {tags.push(' - エア番組')};
                 if (program.livecure) {tags.push(' - 実況')};
                 if (program.extra_tags) {tags.concat(program.extra_tags)};
