@@ -62,34 +62,27 @@ const { widgetProps, configure, save } = useWidgetPropsManager(name,
 	emit,
 );
 
-//const options = {};
-
 const getPrograms = async => {
-	fetch('https://mk.precure.fun/mulukhiya/api/program')
-	.then((response) => {
-		console.log(response);
-	})
-	.then((text) => {
-		widgetProps.programs = text;
-	})
-	.catch((e) => {
-		console.log(e.message)
-	});
+	
+	(async function() {
+		const response = await fetch('/mulukhiya/api/program')
+		widgetProps.programs = await response.json();
 
-	Object.keys(widgetProps.programs).forEach(function (key) {
-		if (widgetProps.programs[key].enable) {
-			let option = {};
-			let label = widgetProps.programs[key].series;
-			if (widgetProps.programs[key].episode) {label = label + ` 第${widgetProps.programs[key].episode}${widgetProps.programs[key].episode_suffix || '話'}`};
-			if (widgetProps.programs[key].subtitle) {label = label + `「${widgetProps.programs[key].subtitle}」`};
-			if (widgetProps.programs[key].air) {label = label + 'エア番組'};
-			if (widgetProps.programs[key].livecure) {label = label + '実況用タグ'};
-			option.key = key;
-			option.label = label;
-			widgetProps.options[key] = option;
-		}
-	});
-	widgetProps.getbutton = "再取得";
+		Object.keys(widgetProps.programs).forEach(function (key) {
+			if (widgetProps.programs[key].enable) {
+				let option = {};
+				let label = widgetProps.programs[key].series;
+				if (widgetProps.programs[key].episode) {label = label + ` 第${widgetProps.programs[key].episode}${widgetProps.programs[key].episode_suffix || '話'}`};
+				if (widgetProps.programs[key].subtitle) {label = label + `「${widgetProps.programs[key].subtitle}」`};
+				if (widgetProps.programs[key].air) {label = label + 'エア番組'};
+				if (widgetProps.programs[key].livecure) {label = label + '実況用タグ'};
+				option.key = key;
+				option.label = label;
+				widgetProps.options[key] = option;
+			}
+		});
+		widgetProps.getbutton = "再取得";
+	})();
 }
 
 const createProgramTags = program => {
@@ -108,7 +101,9 @@ const createProgramTags = program => {
 const command = "command: user_config\ntagging:\n user_tags:";
 
 const send = async => {
-	console.log(programs.value);
+	if (!programs.value) {
+		return;
+	}
 
 	let text = "";
 	let key = programs.value;
@@ -136,9 +131,12 @@ const send = async => {
 		visibleUserIds: []
 	};
 
-	os.api('notes/create', postData).then(() => {
-		os.toast('送信しました');
-	});
+	(async function() {
+			await os.api('notes/create', postData).then(() => {
+			os.toast('送信しました');
+			programs.value = null;
+		});
+	})();
 
 }
 
