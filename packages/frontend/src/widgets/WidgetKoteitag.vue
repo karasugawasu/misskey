@@ -39,10 +39,6 @@ const widgetPropsDef = {
 		type: 'object' as const,
 		default: { clear: {key: 'clear', label: 'タグをクリア'}},
 	},
-	getbutton: {
-		type: 'string' as const,
-		default: '取得',
-	}
 };
 
 type WidgetProps = GetFormResultType<typeof widgetPropsDef>;
@@ -75,12 +71,12 @@ const getPrograms = async => {
 				if (widgetProps.programs[key].subtitle) {label = label + `「${widgetProps.programs[key].subtitle}」`};
 				if (widgetProps.programs[key].air) {label = label + 'エア番組'};
 				if (widgetProps.programs[key].livecure) {label = label + '実況用タグ'};
+				if (widgetProps.programs[key].minutes) {label = label + ` ${widgetProps.programs[key].minutes}分`}
 				option.key = key;
 				option.label = label;
 				widgetProps.options[key] = option;
 			}
 		});
-		widgetProps.getbutton = "再取得";
 	})();
 }
 
@@ -106,6 +102,7 @@ const setPrograms = async => {
                 if (program.air) {tags.push(' - エア番組')};
                 if (program.livecure) {tags.push(' - 実況')};
                 if (program.extra_tags) {tags.concat(program.extra_tags)};
+		if (program.minutes) {tags.push(` minutes: ${program.minutes}`)}
 		text = text + tags.join('\n');
 	}
 
