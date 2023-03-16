@@ -1,14 +1,17 @@
 <template>
 <MkContainer :show-header="widgetProps.showHeader" :scrollable="false" class="mkw-koteitag data-cy-mkw-koteitag">
+	<template #icon><i class="ti ti-hash"></i></template>
+	<template #header>{{ i18n.ts._widgets.koteitag }}</template>
+
 	<div :class="$style.container">
 		<div>
 			<MkSelect :class="$style.select" v-model="programs">
-				<template #label>実況を選択</template>
+				<template #label><i class="ti ti-hash"></i>実況する番組を選択</template>
 				<option v-for="option in widgetProps.options" v-bind:value="option.key">{{option.label}}</option>
 			</MkSelect>
 		</div>
 		<div>
-		        <MkButton :class="$style.button" class="get" @click="getPrograms"><i :class="$style.iconInner" class="ti ti-reload"></i></MkButton>
+			<MkButton :class="$style.button" class="get" @click="getPrograms"><i :class="$style.iconInner" class="ti ti-reload"></i></MkButton>
 		</div>
 	</div>
 </MkContainer>
@@ -96,12 +99,12 @@ const setPrograms = async => {
 		let program = widgetProps.programs[key];
 		let tags = [];
 		text = command + "\n";
-                tags.push(`  - ${program.series}`);
-                if (program.episode) {tags.push(`  - ${program.episode}${program.episode_suffix || '話'}`)};
-                if (program.subtitle) {tags.push(`  - ${program.subtitle}`)};
-                if (program.air) {tags.push('  - エア番組')};
-                if (program.livecure) {tags.push('  - 実況')};
-                if (program.extra_tags) {
+		tags.push(`  - ${program.series}`);
+		if (program.episode) {tags.push(`  - ${program.episode}${program.episode_suffix || '話'}`)};
+		if (program.subtitle) {tags.push(`  - ${program.subtitle}`)};
+		if (program.air) {tags.push('  - エア番組')};
+		if (program.livecure) {tags.push('  - 実況')};
+		if (program.extra_tags) {
 			const extratags = program.extra_tags.map(t => '  -' + t);
 			tags = tags.concat(extratags);
 		}
@@ -119,18 +122,16 @@ const setPrograms = async => {
 
 	os.confirm({
 		type: 'question',
-		title: 'この実況タグでよろしいでしょうか',
+		title: 'この番組でよろしいでしょうか',
 		text: widgetProps.options[programs.value].label,
 	}).then(({ canceled }) => {
 		if (canceled) {
 			programs.value = null;
 			return;
 		}
-		console.log("OK");
-
 		(async function() {
 			await os.api('notes/create', postData).then(() => {
-				os.toast('送信しました');
+				os.toast('固定タグ用コマンドを送信しました');
 				programs.value = null;
 			});
 		})();
@@ -174,5 +175,4 @@ getPrograms();
 	margin: 0 auto;
 	font-size: 12px;
 }
-
 </style>
