@@ -82,7 +82,6 @@ const getPrograms = async => {
 		});
 	})();
 	widgetProps.options['epibrowser'] = {key:'epibrowser' ,label: 'その他の番組'};
-	programs.selectedIndex = -1;
 }
 
 const command = "command: user_config\ntagging:\n  user_tags:";
