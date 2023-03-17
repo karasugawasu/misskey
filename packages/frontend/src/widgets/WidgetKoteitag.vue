@@ -81,6 +81,7 @@ const getPrograms = async => {
 			}
 		});
 	})();
+	widgetProps.options['epibrowser'] = {key:'epibrowser' ,label: 'その他の番組'};
 }
 
 const command = "command: user_config\ntagging:\n  user_tags:";
@@ -92,6 +93,12 @@ const setPrograms = async => {
 
 	let text = "";
 	let key = programs.value;
+
+	if (key == 'epibrowser') {
+		window.open("/mulukhiya/app/episode");
+		programs.value = null;
+		return;
+	}
 
 	if (key == 'clear') {
 		text = command + " null"
