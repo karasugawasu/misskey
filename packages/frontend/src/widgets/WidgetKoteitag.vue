@@ -82,6 +82,7 @@ const getPrograms = async => {
 		});
 	})();
 	widgetProps.options['epibrowser'] = {key:'epibrowser' ,label: 'その他の番組'};
+	programs.selectedIndex = -1;
 }
 
 const command = "command: user_config\ntagging:\n  user_tags:";
@@ -95,9 +96,17 @@ const setPrograms = async => {
 	let key = programs.value;
 
 	if (key == 'epibrowser') {
-		window.open("/mulukhiya/app/episode");
-		programs.value = null;
-		return;
+		os.confirm({
+			type: 'info',
+			title: 'エピソードブラウザで他の番組を探しますか？',
+		}).then(({ canceled }) => {
+			if (canceled) {
+				programs.value = null;
+				return;
+			}
+			programs.value = null;
+			window.open("/mulukhiya/app/episode");
+		});
 	}
 
 	if (key == 'clear') {
