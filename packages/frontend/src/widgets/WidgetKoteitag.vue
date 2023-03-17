@@ -107,6 +107,7 @@ const setPrograms = async => {
 			programs.value = null;
 			window.open("/mulukhiya/app/episode");
 		});
+		return;
 	}
 
 	if (key == 'clear') {
