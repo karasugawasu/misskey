@@ -40,7 +40,7 @@ const widgetPropsDef = {
 	},
 	options: {
 		type: 'object' as const,
-		default: { clear: {key: 'clear', label: 'タグをクリア'}},
+		default: null,
 	},
 };
 
@@ -63,6 +63,11 @@ const { widgetProps, configure, save } = useWidgetPropsManager(name,
 const getPrograms = async => {
 	
 	(async function() {
+		widgetProps.options = {};
+
+		widgetProps.options['clear'] = {key:'clear' ,label: 'タグをクリア'};
+		widgetProps.options['epibrowser'] = {key:'epibrowser' ,label: 'その他の番組'};
+
 		const response = await fetch('/mulukhiya/api/program')
 		widgetProps.programs = await response.json();
 
@@ -80,7 +85,6 @@ const getPrograms = async => {
 				widgetProps.options[key] = option;
 			}
 		});
-		widgetProps.options['epibrowser'] = {key:'epibrowser' ,label: 'その他の番組'};
 	})();
 }
 
@@ -137,7 +141,7 @@ const setPrograms = async => {
 	};
 
 	os.confirm({
-		type: 'question',
+		type: 'info',
 		title: 'この番組でよろしいでしょうか',
 		text: widgetProps.options[programs.value].label,
 	}).then(({ canceled }) => {
