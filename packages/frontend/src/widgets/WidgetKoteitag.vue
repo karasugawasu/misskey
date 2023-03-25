@@ -63,7 +63,7 @@ const { widgetProps, configure, save } = useWidgetPropsManager(name,
 const getPrograms = async => {
 	
 	(async function() {
-		const response = await fetch('/vite/mulukhiya/api/program')
+		const response = await fetch('/mulukhiya/api/program')
 		widgetProps.programs = await response.json();
 
 		Object.keys(widgetProps.programs).forEach(function (key) {
