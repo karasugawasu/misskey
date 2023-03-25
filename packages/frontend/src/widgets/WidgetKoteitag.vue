@@ -63,7 +63,7 @@ const { widgetProps, configure, save } = useWidgetPropsManager(name,
 const getPrograms = async => {
 	
 	(async function() {
-		const response = await fetch('/mulukhiya/api/program')
+		const response = await fetch('/vite/mulukhiya/api/program')
 		widgetProps.programs = await response.json();
 
 		Object.keys(widgetProps.programs).forEach(function (key) {
@@ -80,8 +80,8 @@ const getPrograms = async => {
 				widgetProps.options[key] = option;
 			}
 		});
+		widgetProps.options['epibrowser'] = {key:'epibrowser' ,label: 'その他の番組'};
 	})();
-	widgetProps.options['epibrowser'] = {key:'epibrowser' ,label: 'その他の番組'};
 }
 
 const command = "command: user_config\ntagging:\n  user_tags:";
