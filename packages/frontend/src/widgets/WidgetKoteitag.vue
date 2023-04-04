@@ -125,7 +125,7 @@ const setPrograms = async => {
 		if (program.air) {tags.push('  - エア番組')};
 		if (program.livecure) {tags.push('  - 実況')};
 		if (program.extra_tags) {
-			const extratags = program.extra_tags.map(t => '  -' + t);
+			const extratags = program.extra_tags.map(t => '  - ' + t);
 			tags = tags.concat(extratags);
 		}
 		if (program.minutes) {tags.push(`  minutes: ${program.minutes}`)};
