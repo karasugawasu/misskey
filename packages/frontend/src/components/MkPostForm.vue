@@ -901,7 +901,7 @@ defineExpose({
 
 .headerLeft {
 	display: grid;
-	grid-template-columns: repeat(2, minmax(36px, 50px));
+	grid-template-columns: repeat(1, minmax(36px, 50px));
 	grid-template-rows: minmax(40px, 100%);
 }
 
