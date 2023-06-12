@@ -907,7 +907,7 @@ defineExpose({
 
 .headerLeft {
 	display: flex;
-	flex: 0 1 80px;
+	flex: 0 1 50px;
 }
 
 .cancel {
