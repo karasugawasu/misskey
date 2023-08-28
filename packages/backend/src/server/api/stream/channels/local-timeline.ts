@@ -47,7 +47,7 @@ class LocalTimelineChannel extends Channel {
 
 		if (note.channelId != null && !this.followingChannels.has(note.channelId)) return;
 
-		if (!(note.channelId == null && (note.user.host == null && note.visibility === 'public'))) return;
+		if (!(note.channelId == null && note.visibility === 'public')) return;
 
 		// リプライなら再pack
 		if (note.replyId != null) {
