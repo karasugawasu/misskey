@@ -2037,3 +2037,14 @@ _webhookSettings:
     renote: "When renoted"
     reaction: "When receiving a reaction"
     mention: "When being mentioned"
+
+_koteitag:
+  clearTags: "Clear Tags"
+  air: "Air Program"
+  livecure: "Livecure"
+  episodeBrowser: "Episode Browser"
+  fetch: "Fetch Programs"
+  episodePrefix: "ep"
+  episodeSuffix: ""
+  confirmMessage: "Is this program correct?"
+  successMessage: "Commands for fixed tags were sent."

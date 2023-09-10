@@ -2096,3 +2096,15 @@ _webhookSettings:
     renote: "リキュア！されたとき"
     reaction: "リアクションがあったとき"
     mention: "メンションされたとき"
+
+_koteitag:
+  clearTags: "タグをクリア"
+  air: "エア番組"
+  livecure: "実況"
+  episodeBrowser: "エピソードブラウザ"
+  fetch: "番組表の取得"
+  episodePrefix: "第"
+  episodeSuffix: "話"
+  confirmMessage: "この番組でよろしいでしょうか？"
+  successMessage: "固定タグ用コマンドを送信しました。"
+

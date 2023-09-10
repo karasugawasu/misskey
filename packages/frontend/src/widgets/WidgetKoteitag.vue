@@ -1,11 +1,10 @@
 <template>
-<MkContainer :show-header="widgetProps.showHeader" :scrollable="false" class="mkw-koteitag data-cy-mkw-koteitag">
+<MkContainer :scrollable="false">
   <template #icon><i class="ti ti-hash"></i></template>
   <template #header>{{ i18n.ts._widgets.koteitag }}</template>
   <div :class="$style.container">
     <div>
       <MkSelect :class="$style.select" v-model="program_selected">
-        <template #label><i class="ti ti-hash"></i>実況する番組を選択</template>
         <option v-for="option in options" :value="option['key']">{{option['label']}}</option>
       </MkSelect>
     </div>
@@ -29,13 +28,12 @@ import MkButton from '@/components/MkButton.vue';
 import { i18n } from '@/i18n';
 
 const name = 'koteitag';
+const dic = i18n.ts._koteitag;
 const program_selected = ref('');
 let programs:object[] = [];
 let options = reactive({});
 
-const widgetPropsDef = {
-  showHeader: {type: 'boolean' as const, default: false},
-};
+const widgetPropsDef = {};
 type WidgetProps = GetFormResultType<typeof widgetPropsDef>;
 
 // 現時点ではvueの制限によりimportしたtypeをジェネリックに渡せない
@@ -43,35 +41,38 @@ type WidgetProps = GetFormResultType<typeof widgetPropsDef>;
 //const emit = defineEmits<WidgetComponentEmits<WidgetProps>>();
 const props = defineProps<{ widget?: Widget<WidgetProps>; }>();
 const emit = defineEmits<{ (ev: 'updateProps', props: WidgetProps); }>();
+const { configure } = useWidgetPropsManager(name, widgetPropsDef, props, emit);
 
-const { widgetProps, configure } = useWidgetPropsManager(
+defineExpose<WidgetComponentExpose>({
   name,
-  widgetPropsDef,
-  props,
-  emit,
-);
+  configure,
+  id: props.widget ? props.widget.id : null,
+});
 
 const getPrograms = async () => {
-  options = {clear_tags: {key:'clear_tags', label: 'タグをクリア'}};
+  options = {clear_tags: {key:'clear_tags', label: dic.clearTags}};
   fetch('/mulukhiya/api/program/update', {method: 'POST'})
     .then(e => fetch('/mulukhiya/api/program'))
     .then(e => e.json())
     .then(e => {
       programs = e;
-      Object.keys(programs).map(k => {
+      Object.keys(programs).filter(k => programs[k]?.enable).map(k => {
         const v = programs[k];
-        if (v?.enable) {
-          let label = [v?.series];
-          if (v?.episode) label.push(`第${v.episode}${v.episode_suffix || '話'}`);
-          if (v?.subtitle) label.push(`「${v.subtitle}」`);
-          if (v?.livecure) label.push(v.air ? 'エア番組実況用タグ' : '実況用タグ');
-          if (v?.minutes) label.push(`${v.minutes}分`);
-          options[k] = {key: k, label: label.join(' ')};
+        const label = [v.series];
+        if (v.episode) {
+          label.push(`${dic.episodePrefix}${v.episode}${v.episode_suffix || dic.episodeSuffix}`);
         }
+        if (v.subtitle) label.push(`「${v.subtitle}」`);
+        if (v.livecure) {
+          if (v.air) label.push(dic.air);
+          label.push(dic.livecure);
+        }
+        if (v.minutes) label.push(`${v.minutes}分`);
+        (v.extra_tags || []).map((tag: string) => label.push(tag));
+        options[k] = {key: k, label: label.join(' ')};
       });
-    }).then(e => {
-      options['episode_browser'] = {key:'episode_browser', label: 'その他の番組'};
-    }).catch(e => os.alert({type: 'error', title: '番組表の取得', text: e.message}));
+      options['episode_browser'] = {key:'episode_browser', label: dic.episodeBrowser};
+    }).catch(e => os.alert({type: 'error', title: dic.fetch, text: e.message}));
 }
 
 const setPrograms = async () => {
@@ -88,40 +89,35 @@ const setPrograms = async () => {
 
     default:
       const v = programs[program_selected.value];
-      commandToot.tagging['user_tags'] = [v?.series];
-      if (v?.episode) commandToot.tagging['user_tags'].push(`${v.episode}${v.episode_suffix || '話'}`);
-      if (v?.subtitle) commandToot.tagging['user_tags'].push(v.subtitle);
-      if (v?.air) commandToot.tagging['user_tags'].push('エア番組');
-      if (v?.livecure) commandToot.tagging['user_tags'].push('実況');
-      if (v?.extra_tags) commandToot.tagging['user_tags'].concat(v.extra_tags);
-      if (v?.minutes) commandToot.tagging['minutes'] = v.minutes;
+      commandToot.tagging['user_tags'] = [v.series];
+      if (v.episode) {
+        commandToot.tagging['user_tags'].push(`${v.episode}${v.episode_suffix || dic.episodeSuffix}`);
+      }
+      if (v.subtitle) commandToot.tagging['user_tags'].push(v.subtitle);
+      if (v.air) commandToot.tagging['user_tags'].push(dic.air);
+      if (v.livecure) commandToot.tagging['user_tags'].push(dic.livecure);
+      (v.extra_tags || []).map((tag: string) => commandToot.tagging['user_tags'].push(tag));
+      if (v.minutes) commandToot.tagging['minutes'] = v.minutes;
       break;
   }
 
   os.confirm({
     type: 'info',
-    title: 'この番組でよろしいでしょうか？',
+    title: dic.confirmMessage,
     text: options[program_selected.value].label,
   }).then(({ canceled }) => {
+    if (canceled) return;
     program_selected.value = '';
-    if (!canceled) {
-			const payload = <object>{
-				localOnly: true, // コマンドトゥートは連合に流す必要なし
-				poll: null,
-				text: JSON.stringify(commandToot),
-				visibility: 'specified',
-				visibleUserIds: [],
-			};
-      os.api('notes/create', payload).then(() => os.toast('固定タグ用コマンドを送信しました。'));
-    }
+    const payload = {
+      localOnly: true, // コマンドトゥートは連合に流す必要なし
+      poll: null,
+      text: JSON.stringify(commandToot),
+      visibility: 'specified',
+      visibleUserIds: [],
+    } as object;
+    os.api('notes/create', payload).then(() => os.toast(dic.successMessage));
   });
 }
-
-defineExpose<WidgetComponentExpose>({
-  name,
-  configure,
-  id: props.widget ? props.widget.id : null,
-});
 
 watch(program_selected, (next, prev) => setPrograms());
 getPrograms();
