@@ -1,3 +1,8 @@
+/*
+ * SPDX-FileCopyrightText: syuilo and other misskey contributors
+ * SPDX-License-Identifier: AGPL-3.0-only
+ */
+
 import { Injectable } from '@nestjs/common';
 import { checkWordMute } from '@/misc/check-word-mute.js';
 import { normalizeForSearch } from '@/misc/normalize-for-search.js';
@@ -15,6 +20,7 @@ class LocalTimelineChannel extends Channel {
 	public static requireCredential = false;
 	private q: string[][] = [['precure_fun']];
 	private withReplies: boolean;
+	private withRenotes: boolean;
 
 	constructor(
 		private noteEntityService: NoteEntityService,
@@ -33,7 +39,8 @@ class LocalTimelineChannel extends Channel {
 		const policies = await this.roleService.getUserPolicies(this.user ? this.user.id : null);
 		if (!policies.ltlAvailable) return;
 
-		this.withReplies = params.withReplies as boolean;
+		this.withReplies = params.withReplies ?? false;
+		this.withRenotes = params.withRenotes ?? true;
 
 		// Subscribe events
 		this.subscriber.on('notesStream', this.onNote);

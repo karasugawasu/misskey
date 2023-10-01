@@ -1,3 +1,8 @@
+/*
+ * SPDX-FileCopyrightText: syuilo and other misskey contributors
+ * SPDX-License-Identifier: AGPL-3.0-only
+ */
+
 import { Injectable } from '@nestjs/common';
 import { checkWordMute } from '@/misc/check-word-mute.js';
 import { isUserRelated } from '@/misc/is-user-related.js';
@@ -14,6 +19,7 @@ class HybridTimelineChannel extends Channel {
 	public static shouldShare = true;
 	public static requireCredential = true;
 	private withReplies: boolean;
+	private withRenotes: boolean;
 
 	constructor(
 		private metaService: MetaService,
@@ -32,7 +38,8 @@ class HybridTimelineChannel extends Channel {
 		const policies = await this.roleService.getUserPolicies(this.user ? this.user.id : null);
 		if (!policies.ltlAvailable) return;
 
-		this.withReplies = params.withReplies as boolean;
+		this.withReplies = params.withReplies ?? false;
+		this.withRenotes = params.withRenotes ?? true;
 
 		// Subscribe events
 		this.subscriber.on('notesStream', this.onNote);
@@ -76,6 +83,7 @@ class HybridTimelineChannel extends Channel {
 
 		// Ignore notes from instances the user has muted
 		if (isInstanceMuted(note, new Set<string>(this.userProfile!.mutedInstances ?? []))) return;
+
 
 		// 流れてきたNoteがミュートしているユーザーが関わるものだったら無視する
 		if (isUserRelated(note, this.userIdsWhoMeMuting)) return;
