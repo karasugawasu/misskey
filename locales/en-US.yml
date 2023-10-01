@@ -2138,3 +2138,14 @@ _moderationLogTypes:
   createAd: "Ad created"
   deleteAd: "Ad deleted"
   updateAd: "Ad updated"
+
+_koteitag:
+  clearTags: "Clear Tags"
+  air: "Air Program"
+  livecure: "Livecure"
+  episodeBrowser: "Episode Browser"
+  fetch: "Fetch Programs"
+  episodePrefix: "ep"
+  episodeSuffix: ""
+  confirmMessage: "Is this program correct?"
+  successMessage: "Commands for fixed tags were sent."
