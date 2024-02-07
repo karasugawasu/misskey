@@ -4,28 +4,26 @@
  */
 
 import { Injectable } from '@nestjs/common';
-import { checkWordMute } from '@/misc/check-word-mute.js';
 import { normalizeForSearch } from '@/misc/normalize-for-search.js';
 import { isUserRelated } from '@/misc/is-user-related.js';
 import type { Packed } from '@/misc/json-schema.js';
 import { NoteEntityService } from '@/core/entities/NoteEntityService.js';
-import { MetaService } from '@/core/MetaService.js';
-import { RoleService } from '@/core/RoleService.js';
 import { bindThis } from '@/decorators.js';
-import Channel from '../channel.js';
+import Channel, { type MiChannelService } from '../channel.js';
+import { loadConfig } from '@/config.js';
+import { RoleService } from '@/core/RoleService.js';
 
 class LocalTimelineChannel extends Channel {
 	public readonly chName = 'localTimeline';
-	public static shouldShare = true;
-	public static requireCredential = false;
-	private q: string[][] = [['precure_fun']];
-	private withReplies: boolean;
+	public static shouldShare = false;
+	public static requireCredential = false as const;
 	private withRenotes: boolean;
+	private withReplies: boolean;
+	private withFiles: boolean;
+	private q: string[][];
 
 	constructor(
 		private noteEntityService: NoteEntityService,
-		private metaService: MetaService,
-		private roleService: RoleService,
 
 		id: string,
 		connection: Channel['connection'],
@@ -36,13 +34,10 @@ class LocalTimelineChannel extends Channel {
 
 	@bindThis
 	public async init(params: any) {
-		const policies = await this.roleService.getUserPolicies(this.user ? this.user.id : null);
-		if (!policies.ltlAvailable) return;
+		const config = loadConfig();
+		this.q = [[String(config.mulukhiya.defaultTag)]];
 
-		this.withReplies = params.withReplies ?? false;
-		this.withRenotes = params.withRenotes ?? true;
-
-		// Subscribe events
+		// Subscribe stream
 		this.subscriber.on('notesStream', this.onNote);
 	}
 
@@ -52,23 +47,19 @@ class LocalTimelineChannel extends Channel {
 		const matched = this.q.some(tags => tags.every(tag => noteTags.includes(normalizeForSearch(tag))));
 		if (!matched) return;
 
-		if (note.channelId != null && !this.followingChannels.has(note.channelId)) return;
+		if (this.withFiles && (note.fileIds == null || note.fileIds.length === 0)) return;
 
-		if (!(note.channelId == null && note.visibility === 'public')) return;
+		if (note.visibility !== 'public') return;
+		if (note.channelId != null) return;
 
-		// リプライなら再pack
-		if (note.replyId != null) {
-			note.reply = await this.noteEntityService.pack(note.replyId, this.user, {
-				detail: true,
-			});
+		// 関係ない返信は除外
+		if (note.reply && this.user && !this.following[note.userId]?.withReplies && !this.withReplies) {
+			const reply = note.reply;
+			// 「チャンネル接続主への返信」でもなければ、「チャンネル接続主が行った返信」でもなければ、「投稿者の投稿者自身への返信」でもない場合
+			if (reply.userId !== this.user.id && note.userId !== this.user.id && reply.userId !== note.userId) return;
 		}
 
-		// Renoteなら再pack
-		if (note.renoteId != null) {
-			note.renote = await this.noteEntityService.pack(note.renoteId, this.user, {
-				detail: true,
-			});
-		}
+		if (note.renote && note.text == null && (note.fileIds == null || note.fileIds.length === 0) && !this.withRenotes) return;
 
 		// 流れてきたNoteがミュートしているユーザーが関わるものだったら無視する
 		if (isUserRelated(note, this.userIdsWhoMeMuting)) return;
@@ -77,12 +68,12 @@ class LocalTimelineChannel extends Channel {
 
 		if (note.renote && !note.text && isUserRelated(note, this.userIdsWhoMeMutingRenotes)) return;
 
-		// 流れてきたNoteがミュートすべきNoteだったら無視する
-		// TODO: 将来的には、単にMutedNoteテーブルにレコードがあるかどうかで判定したい(以下の理由により難しそうではある)
-		// 現状では、ワードミュートにおけるMutedNoteレコードの追加処理はストリーミングに流す処理と並列で行われるため、
-		// レコードが追加されるNoteでも追加されるより先にここのストリーミングの処理に到達することが起こる。
-		// そのためレコードが存在するかのチェックでは不十分なので、改めてcheckWordMuteを呼んでいる
-		if (this.userProfile && await checkWordMute(note, this.user, this.userProfile.mutedWords)) return;
+		if (this.user && note.renoteId && !note.text) {
+			if (note.renote && Object.keys(note.renote.reactions).length > 0) {
+				const myRenoteReaction = await this.noteEntityService.populateMyReaction(note.renote, this.user.id);
+				note.renote.myReaction = myRenoteReaction;
+			}
+		}
 
 		this.connection.cacheNote(note);
 
@@ -97,13 +88,12 @@ class LocalTimelineChannel extends Channel {
 }
 
 @Injectable()
-export class LocalTimelineChannelService {
+export class LocalTimelineChannelService implements MiChannelService<false> {
 	public readonly shouldShare = LocalTimelineChannel.shouldShare;
 	public readonly requireCredential = LocalTimelineChannel.requireCredential;
+	public readonly kind = LocalTimelineChannel.kind;
 
 	constructor(
-		private metaService: MetaService,
-		private roleService: RoleService,
 		private noteEntityService: NoteEntityService,
 	) {
 	}
@@ -112,8 +102,6 @@ export class LocalTimelineChannelService {
 	public create(id: string, connection: Channel['connection']): LocalTimelineChannel {
 		return new LocalTimelineChannel(
 			this.noteEntityService,
-			this.metaService,
-			this.roleService,
 			id,
 			connection,
 		);

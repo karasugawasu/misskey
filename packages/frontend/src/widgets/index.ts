@@ -34,6 +34,7 @@ export default function(app: App) {
 	app.component('WidgetUserList', defineAsyncComponent(() => import('./WidgetUserList.vue')));
 	app.component('WidgetClicker', defineAsyncComponent(() => import('./WidgetClicker.vue')));
 	app.component('WidgetKoteitag', defineAsyncComponent(() => import('./WidgetKoteitag.vue')));
+	app.component('WidgetBirthdayFollowings', defineAsyncComponent(() => import('./WidgetBirthdayFollowings.vue')));
 }
 
 export const widgets = [
@@ -65,4 +66,5 @@ export const widgets = [
 	'userList',
 	'clicker',
 	'koteitag',
+	'birthdayFollowings',
 ];
