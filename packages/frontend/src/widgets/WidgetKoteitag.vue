@@ -106,7 +106,7 @@ const setPrograms = async () => {
     title: dic.confirmMessage,
     text: options[program_selected.value].label,
   }).then(({ canceled }) => {
-    if (canceled) return;
+    if (canceled) { program_selected.value = ''; return; }
     program_selected.value = '';
     const payload = {
       localOnly: true, // コマンドトゥートは連合に流す必要なし
