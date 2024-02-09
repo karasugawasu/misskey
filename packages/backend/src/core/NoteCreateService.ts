@@ -909,6 +909,16 @@ export class NoteCreateService implements OnApplicationShutdown {
 				}
 			}
 
+			// デフォルトハッシュタグ
+			const config = loadConfig();
+			if (note.visibility === 'public' && note.tags.includes(String(config.mulukhiya.defaultTag))) {
+				this.fanoutTimelineService.push('localTimelineWithReplies', note.id, 300, r);
+				this.fanoutTimelineService.push('localTimeline', note.id, 1000, r);
+				if (note.fileIds.length > 0) {
+					this.fanoutTimelineService.push('localTimelineWithFiles', note.id, 500, r);
+				}
+			}
+
 			// 自分自身以外への返信
 			if (isReply(note)) {
 				this.fanoutTimelineService.push(`userTimelineWithReplies:${user.id}`, note.id, note.userHost == null ? meta.perLocalUserUserTimelineCacheMax : meta.perRemoteUserUserTimelineCacheMax, r);
