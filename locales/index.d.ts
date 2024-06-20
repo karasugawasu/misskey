@@ -13,17 +13,14 @@ export interface Locale extends ILocale {
      * 日本語
      */
     "_lang_": string;
-    "deleteAndTagging": string;
-    "deleteAndTaggingConfirm": string;
-    "mulukhiyaHome": string;
     /**
-     * ノートでつながるネットワーク
+     * キュア！でつながるネットワーク
      */
     "headlineMisskey": string;
     /**
      * ようこそ！Misskeyは、オープンソースの分散型マイクロブログサービスです。
-     * 「ノート」を作成して、いま起こっていることを共有したり、あなたについて皆に発信しよう📡
-     * 「リアクション」機能で、皆のノートに素早く反応を追加することもできます👍
+     * 「キュア！」を作成して、いま起こっていることを共有したり、あなたについて皆に発信しよう📡
+     * 「リアクション」機能で、皆のキュア！に素早く反応を追加することもできます👍
      * 新しい世界を探検しよう🚀
      */
     "introMisskey": string;
@@ -80,11 +77,11 @@ export interface Locale extends ILocale {
      */
     "enterUsername": string;
     /**
-     * {user}がリノート
+     * {user}がリキュア！
      */
     "renotedBy": ParameterizedString<"user">;
     /**
-     * ノートはありません
+     * キュア！はありません
      */
     "noNotes": string;
     /**
@@ -200,7 +197,7 @@ export interface Locale extends ILocale {
      */
     "copyLink": string;
     /**
-     * リノートのリンクをコピー
+     * リキュア！のリンクをコピー
      */
     "copyLinkRenote": string;
     /**
@@ -212,7 +209,11 @@ export interface Locale extends ILocale {
      */
     "deleteAndEdit": string;
     /**
-     * このノートを削除してもう一度編集しますか？このノートへのリアクション、リノート、返信も全て削除されます。
+     * 削除してタグづけ
+     */
+    "deleteAndTagging": string;
+    /**
+     * このキュア！を削除してもう一度編集しますか？このキュア！へのリアクション、リキュア！、返信も全て削除されます。
      */
     "deleteAndEditConfirm": string;
     /**
@@ -240,7 +241,7 @@ export interface Locale extends ILocale {
      */
     "copyUserId": string;
     /**
-     * ノートIDをコピー
+     * キュア！IDをコピー
      */
     "copyNoteId": string;
     /**
@@ -344,11 +345,11 @@ export interface Locale extends ILocale {
      */
     "noLists": string;
     /**
-     * ノート
+     * キュア！
      */
     "note": string;
     /**
-     * ノート
+     * キュア！
      */
     "notes": string;
     /**
@@ -440,23 +441,23 @@ export interface Locale extends ILocale {
      */
     "enterEmoji": string;
     /**
-     * リノート
+     * リキュア！
      */
     "renote": string;
     /**
-     * リノート解除
+     * リキュア！解除
      */
     "unrenote": string;
     /**
-     * リノートしました。
+     * リキュア！しました。
      */
     "renoted": string;
     /**
-     * この投稿はリノートできません。
+     * この投稿はリキュア！できません。
      */
     "cantRenote": string;
     /**
-     * リノートをリノートすることはできません。
+     * リキュア！をリキュア！することはできません。
      */
     "cantReRenote": string;
     /**
@@ -464,7 +465,7 @@ export interface Locale extends ILocale {
      */
     "quote": string;
     /**
-     * チャンネル内リノート
+     * チャンネル内リキュア！
      */
     "inChannelRenote": string;
     /**
@@ -472,7 +473,7 @@ export interface Locale extends ILocale {
      */
     "inChannelQuote": string;
     /**
-     * ピン留めされたノート
+     * ピン留めされたキュア！
      */
     "pinnedNote": string;
     /**
@@ -564,11 +565,11 @@ export interface Locale extends ILocale {
      */
     "unmute": string;
     /**
-     * リノートをミュート
+     * リキュア！をミュート
      */
     "renoteMute": string;
     /**
-     * リノートのミュートを解除
+     * リキュア！のミュートを解除
      */
     "renoteUnmute": string;
     /**
@@ -700,11 +701,11 @@ export interface Locale extends ILocale {
      */
     "flagAsCatDescription": string;
     /**
-     * タイムラインにノートへの返信を表示する
+     * タイムラインにキュア！への返信を表示する
      */
     "flagShowTimelineReplies": string;
     /**
-     * オンにすると、タイムラインにユーザーのノート以外にもそのユーザーの他のノートへの返信を表示します。
+     * オンにすると、タイムラインにユーザーのキュア！以外にもそのユーザーの他のキュア！への返信を表示します。
      */
     "flagShowTimelineRepliesDescription": string;
     /**
@@ -932,7 +933,7 @@ export interface Locale extends ILocale {
      */
     "editProfile": string;
     /**
-     * このノートを削除しますか？
+     * このキュア！を削除しますか？
      */
     "noteDeleteConfirm": string;
     /**
@@ -1520,7 +1521,7 @@ export interface Locale extends ILocale {
      */
     "pinnedClipId": string;
     /**
-     * ピン留めされたノート
+     * ピン留めされたキュア！
      */
     "pinnedNotes": string;
     /**
@@ -1624,11 +1625,11 @@ export interface Locale extends ILocale {
      */
     "antennaKeywordsDescription": string;
     /**
-     * 新しいノートを通知する
+     * 新しいキュア！を通知する
      */
     "notifyAntenna": string;
     /**
-     * ファイルが添付されたノートのみ
+     * ファイルが添付されたキュア！のみ
      */
     "withFileAntenna": string;
     /**
@@ -1748,11 +1749,11 @@ export interface Locale extends ILocale {
      */
     "moderation": string;
     /**
-     * モデレーションノート
+     * モデレーションキュア！
      */
     "moderationNote": string;
     /**
-     * モデレーションノートを追加する
+     * モデレーションキュア！を追加する
      */
     "addModerationNote": string;
     /**
@@ -1876,7 +1877,7 @@ export interface Locale extends ILocale {
      */
     "retype": string;
     /**
-     * {user}のノート
+     * {user}のキュア！
      */
     "noteOf": ParameterizedString<"user">;
     /**
@@ -1992,7 +1993,7 @@ export interface Locale extends ILocale {
      */
     "disableDrawer": string;
     /**
-     * ノートのアクションをホバー時のみ表示する
+     * キュア！のアクションをホバー時のみ表示する
      */
     "showNoteActionsOnlyHover": string;
     /**
@@ -2108,11 +2109,11 @@ export interface Locale extends ILocale {
      */
     "numberOfDays": string;
     /**
-     * このノートを非表示
+     * このキュア！を非表示
      */
     "hideThisNote": string;
     /**
-     * タイムラインにおすすめのノートを表示する
+     * タイムラインにおすすめのキュア！を表示する
      */
     "showFeaturedNotesInTimeline": string;
     /**
@@ -2208,7 +2209,7 @@ export interface Locale extends ILocale {
      */
     "withRepliesByDefaultForNewlyFollowed": string;
     /**
-     * 新しいノートがあります
+     * 新しいキュア！があります
      */
     "newNoteRecived": string;
     /**
@@ -2752,7 +2753,7 @@ export interface Locale extends ILocale {
      */
     "reportAbuse": string;
     /**
-     * リノートを通報
+     * リキュア！を通報
      */
     "reportAbuseRenote": string;
     /**
@@ -2760,7 +2761,7 @@ export interface Locale extends ILocale {
      */
     "reportAbuseOf": ParameterizedString<"name">;
     /**
-     * 通報理由の詳細を記入してください。対象のノートがある場合はそのURLも記入してください。
+     * 通報理由の詳細を記入してください。対象のキュア！がある場合はそのURLも記入してください。
      */
     "fillAbuseReportDescription": string;
     /**
@@ -2812,7 +2813,7 @@ export interface Locale extends ILocale {
      */
     "editTheseSettingsMayBreakAccount": string;
     /**
-     * ノートのサーバー情報
+     * キュア！のサーバー情報
      */
     "instanceTicker": string;
     /**
@@ -2856,7 +2857,7 @@ export interface Locale extends ILocale {
      */
     "unclip": string;
     /**
-     * このノートはすでにクリップ「{name}」に含まれています。ノートをこのクリップから除外しますか？
+     * このキュア！はすでにクリップ「{name}」に含まれています。キュア！をこのクリップから除外しますか？
      */
     "confirmToUnclipAlreadyClippedNote": ParameterizedString<"name">;
     /**
@@ -2880,7 +2881,7 @@ export interface Locale extends ILocale {
      */
     "accountInfo": string;
     /**
-     * ノートの数
+     * キュア！の数
      */
     "notesCount": string;
     /**
@@ -2888,7 +2889,7 @@ export interface Locale extends ILocale {
      */
     "repliesCount": string;
     /**
-     * リノートした数
+     * リキュア！した数
      */
     "renotesCount": string;
     /**
@@ -2896,7 +2897,7 @@ export interface Locale extends ILocale {
      */
     "repliedCount": string;
     /**
-     * リノートされた数
+     * リキュア！された数
      */
     "renotedCount": string;
     /**
@@ -2944,11 +2945,11 @@ export interface Locale extends ILocale {
      */
     "noCrawle": string;
     /**
-     * 外部の検索エンジンにあなたのユーザーページ、ノート、Pagesなどのコンテンツを登録(インデックス)しないよう要求します。
+     * 外部の検索エンジンにあなたのユーザーページ、キュア！、Pagesなどのコンテンツを登録(インデックス)しないよう要求します。
      */
     "noCrawleDescription": string;
     /**
-     * フォローを承認制にしても、ノートの公開範囲を「フォロワー」にしない限り、誰でもあなたのノートを見ることができます。
+     * フォローを承認制にしても、キュア！の公開範囲を「フォロワー」にしない限り、誰でもあなたのキュア！を見ることができます。
      */
     "lockedAccountInfo": string;
     /**
@@ -2980,7 +2981,7 @@ export interface Locale extends ILocale {
      */
     "emailVerified": string;
     /**
-     * お気に入りノートの数
+     * お気に入りキュア！の数
      */
     "noteFavoritesCount": string;
     /**
@@ -3028,7 +3029,7 @@ export interface Locale extends ILocale {
      */
     "makeExplorableDescription": string;
     /**
-     * タイムラインのノートを離して表示
+     * タイムラインのキュア！を離して表示
      */
     "showGapBetweenNotesInTimeline": string;
     /**
@@ -3076,7 +3077,7 @@ export interface Locale extends ILocale {
      */
     "nUsers": ParameterizedString<"n">;
     /**
-     * {n}ノート
+     * {n}キュア！
      */
     "nNotes": ParameterizedString<"n">;
     /**
@@ -3244,7 +3245,7 @@ export interface Locale extends ILocale {
      */
     "addDescription": string;
     /**
-     * 個々のノートのメニューから「ピン留め」を選択することで、ここにノートを表示しておくことができます。
+     * 個々のキュア！のメニューから「ピン留め」を選択することで、ここにキュア！を表示しておくことができます。
      */
     "userPagePinTip": string;
     /**
@@ -3368,7 +3369,7 @@ export interface Locale extends ILocale {
      */
     "popularPosts": string;
     /**
-     * ノートで共有
+     * キュア！で共有
      */
     "shareWithNote": string;
     /**
@@ -4092,7 +4093,7 @@ export interface Locale extends ILocale {
      */
     "thisPostMayBeAnnoyingIgnore": string;
     /**
-     * 見たことのあるリノートを省略して表示
+     * 見たことのあるリキュア！を省略して表示
      */
     "collapseRenotes": string;
     /**
@@ -4180,7 +4181,7 @@ export interface Locale extends ILocale {
      */
     "sensitiveWords": string;
     /**
-     * 設定したワードが含まれるノートの公開範囲をホームにします。改行で区切って複数設定できます。
+     * 設定したワードが含まれるキュア！の公開範囲をホームにします。改行で区切って複数設定できます。
      */
     "sensitiveWordsDescription": string;
     /**
@@ -4192,7 +4193,7 @@ export interface Locale extends ILocale {
      */
     "prohibitedWords": string;
     /**
-     * 設定したワードが含まれるノートを投稿しようとした際、エラーとなるようにします。改行で区切って複数設定できます。
+     * 設定したワードが含まれるキュア！を投稿しようとした際、エラーとなるようにします。改行で区切って複数設定できます。
      */
     "prohibitedWordsDescription": string;
     /**
@@ -4208,7 +4209,7 @@ export interface Locale extends ILocale {
      */
     "hiddenTagsDescription": string;
     /**
-     * ノート検索は利用できません。
+     * キュア！検索は利用できません。
      */
     "notesSearchNotAvailable": string;
     /**
@@ -4248,7 +4249,7 @@ export interface Locale extends ILocale {
      */
     "enableChartsForFederatedInstances": string;
     /**
-     * ノートのアクションにクリップを追加
+     * キュア！のアクションにクリップを追加
      */
     "showClipButtonInNoteFooter": string;
     /**
@@ -4260,7 +4261,7 @@ export interface Locale extends ILocale {
      */
     "limitWidthOfReaction": string;
     /**
-     * ノートIDまたはURL
+     * キュア！IDまたはURL
      */
     "noteIdOrUrl": string;
     /**
@@ -4316,7 +4317,7 @@ export interface Locale extends ILocale {
      */
     "reactionsList": string;
     /**
-     * リノート一覧
+     * リキュア！一覧
      */
     "renotesList": string;
     /**
@@ -4380,7 +4381,7 @@ export interface Locale extends ILocale {
      */
     "preservedUsernamesDescription": string;
     /**
-     * このファイルからノートを作成
+     * このファイルからキュア！を作成
      */
     "createNoteFromTheFile": string;
     /**
@@ -4400,7 +4401,7 @@ export interface Locale extends ILocale {
      */
     "thisChannelArchived": string;
     /**
-     * ノートの表示
+     * キュア！の表示
      */
     "displayOfNote": string;
     /**
@@ -4416,7 +4417,7 @@ export interface Locale extends ILocale {
      */
     "preventAiLearning": string;
     /**
-     * 外部の文章生成AIや画像生成AIに対して、投稿したノートや画像などのコンテンツを学習の対象にしないように要求します。これはnoaiフラグをHTMLレスポンスに含めることによって実現されますが、この要求に従うかはそのAI次第であるため、学習を完全に防止するものではありません。
+     * 外部の文章生成AIや画像生成AIに対して、投稿したキュア！や画像などのコンテンツを学習の対象にしないように要求します。これはnoaiフラグをHTMLレスポンスに含めることによって実現されますが、この要求に従うかはそのAI次第であるため、学習を完全に防止するものではありません。
      */
     "preventAiLearningDescription": string;
     /**
@@ -4600,7 +4601,7 @@ export interface Locale extends ILocale {
      */
     "replies": string;
     /**
-     * リノート
+     * リキュア！
      */
     "renotes": string;
     /**
@@ -4644,7 +4645,7 @@ export interface Locale extends ILocale {
      */
     "dateAndTime": string;
     /**
-     * リノートを表示
+     * リキュア！を表示
      */
     "showRenotes": string;
     /**
@@ -4659,6 +4660,10 @@ export interface Locale extends ILocale {
      * 相互フォロー
      */
     "mutualFollow": string;
+    /**
+     * フォロー中またはフォロワー
+     */
+    "followingOrFollower": string;
     /**
      * ファイル付きのみ
      */
@@ -4860,6 +4865,14 @@ export interface Locale extends ILocale {
      */
     "replaying": string;
     /**
+     * リプレイを終了
+     */
+    "endReplay": string;
+    /**
+     * リプレイデータをコピー
+     */
+    "copyReplayData": string;
+    /**
      * ランキング
      */
     "ranking": string;
@@ -4876,7 +4889,7 @@ export interface Locale extends ILocale {
      */
     "hemisphere": string;
     /**
-     * センシティブなファイルを含むノートを表示
+     * センシティブなファイルを含むキュア！を表示
      */
     "withSensitive": string;
     /**
@@ -4887,11 +4900,57 @@ export interface Locale extends ILocale {
      * スワイプしてタブを切り替える
      */
     "enableHorizontalSwipe": string;
+    /**
+     * 読み込み中
+     */
+    "loading": string;
+    /**
+     * やめる
+     */
+    "surrender": string;
+    /**
+     * リトライ
+     */
+    "gameRetry": string;
     "_bubbleGame": {
         /**
          * 遊び方
          */
         "howToPlay": string;
+        /**
+         * ホールド
+         */
+        "hold": string;
+        "_score": {
+            /**
+             * スコア
+             */
+            "score": string;
+            /**
+             * 稼いだ金額
+             */
+            "scoreYen": string;
+            /**
+             * ハイスコア
+             */
+            "highScore": string;
+            /**
+             * 最大チェーン数
+             */
+            "maxChain": string;
+            /**
+             * {yen}円
+             */
+            "yen": ParameterizedString<"yen">;
+            /**
+             * {qty}個分
+             */
+            "estimatedQty": ParameterizedString<"qty">;
+            /**
+             * おにぎり {onigiriQtyWithUnit}
+             */
+            "scoreSweets": ParameterizedString<"onigiriQtyWithUnit">;
+        };
         "_howToPlay": {
             /**
              * 位置を調整してハコにモノを落とします。
@@ -5048,11 +5107,11 @@ export interface Locale extends ILocale {
         };
         "_note": {
             /**
-             * ノートって何？
+             * キュア！って何？
              */
             "title": string;
             /**
-             * Misskeyでの投稿は「ノート」と呼びます。ノートはタイムラインに時系列で並んでいて、リアルタイムで更新されていきます。
+             * Misskeyでの投稿は「キュア！」と呼びます。キュア！はタイムラインに時系列で並んでいて、リアルタイムで更新されていきます。
              */
             "description": string;
             /**
@@ -5060,7 +5119,7 @@ export interface Locale extends ILocale {
              */
             "reply": string;
             /**
-             * そのノートを自分のタイムラインに流して共有することができます。テキストを追加して引用することも可能です。
+             * そのキュア！を自分のタイムラインに流して共有することができます。テキストを追加して引用することも可能です。
              */
             "renote": string;
             /**
@@ -5068,7 +5127,7 @@ export interface Locale extends ILocale {
              */
             "reaction": string;
             /**
-             * ノートの詳細を表示したり、リンクをコピーしたりなどの様々な操作が行えます。
+             * キュア！の詳細を表示したり、リンクをコピーしたりなどの様々な操作が行えます。
              */
             "menu": string;
         };
@@ -5078,11 +5137,11 @@ export interface Locale extends ILocale {
              */
             "title": string;
             /**
-             * ノートには「リアクション」をつけることができます。「いいね」では伝わらないニュアンスも、リアクションで簡単・気軽に表現できます。
+             * キュア！には「リアクション」をつけることができます。「いいね」では伝わらないニュアンスも、リアクションで簡単・気軽に表現できます。
              */
             "description": string;
             /**
-             * リアクションは、ノートの「＋」ボタンをクリックするとつけられます。試しにこのサンプルのノートにリアクションをつけてみてください！
+             * リアクションは、キュア！の「＋」ボタンをクリックするとつけられます。試しにこのサンプルのキュア！にリアクションをつけてみてください！
              */
             "letsTryReacting": string;
             /**
@@ -5090,7 +5149,7 @@ export interface Locale extends ILocale {
              */
             "reactToContinue": string;
             /**
-             * あなたのノートが誰かにリアクションされると、リアルタイムで通知を受け取ります。
+             * あなたのキュア！が誰かにリアクションされると、リアルタイムで通知を受け取ります。
              */
             "reactNotification": string;
             /**
@@ -5134,16 +5193,16 @@ export interface Locale extends ILocale {
         };
         "_postNote": {
             /**
-             * ノートの投稿設定
+             * キュア！の投稿設定
              */
             "title": string;
             /**
-             * Misskeyにノートを投稿する際には、様々なオプションの設定が可能です。投稿フォームはこのようになっています。
+             * Misskeyにキュア！を投稿する際には、様々なオプションの設定が可能です。投稿フォームはこのようになっています。
              */
             "description1": string;
             "_visibility": {
                 /**
-                 * ノートを表示できる相手を制限できます。
+                 * キュア！を表示できる相手を制限できます。
                  */
                 "description": string;
                 /**
@@ -5151,11 +5210,11 @@ export interface Locale extends ILocale {
                  */
                 "public": string;
                 /**
-                 * ホームタイムラインのみに公開。フォロワー・プロフィールを見に来た人・リノートから、他のユーザーも見ることができます。
+                 * ホームタイムラインのみに公開。フォロワー・プロフィールを見に来た人・リキュア！から、他のユーザーも見ることができます。
                  */
                 "home": string;
                 /**
-                 * フォロワーにのみ公開。本人以外がリノートすることはできず、またフォロワー以外は閲覧できません。
+                 * フォロワーにのみ公開。本人以外がリキュア！することはできず、またフォロワー以外は閲覧できません。
                  */
                 "followers": string;
                 /**
@@ -5171,7 +5230,7 @@ export interface Locale extends ILocale {
                  */
                 "doNotSendConfidencialOnDirect2": string;
                 /**
-                 * 他のサーバーに投稿を連合しません。上記の公開範囲に関わらず、他のサーバーのユーザーは、この設定がついたノートを直接閲覧することができなくなります。
+                 * 他のサーバーに投稿を連合しません。上記の公開範囲に関わらず、他のサーバーのユーザーは、この設定がついたキュア！を直接閲覧することができなくなります。
                  */
                 "localOnly": string;
             };
@@ -5195,7 +5254,7 @@ export interface Locale extends ILocale {
                     "note": string;
                 };
                 /**
-                 * サーバーのガイドラインにより必要とされるノートに指定したり、ネタバレ投稿やセンシティブな文章を自主規制したりするときに使います。
+                 * サーバーのガイドラインにより必要とされるキュア！に指定したり、ネタバレ投稿やセンシティブな文章を自主規制したりするときに使います。
                  */
                 "useCases": string;
             };
@@ -5348,7 +5407,7 @@ export interface Locale extends ILocale {
          * 新しいアカウントへ移行します。
          * 　・フォロワーが新しいアカウントを自動でフォローします
          * 　・このアカウントからのフォローは全て解除されます
-         * 　・このアカウントではノートの作成などができなくなります
+         * 　・このアカウントではキュア！の作成などができなくなります
          *
          * フォロワーの移行は自動ですが、フォローの移行は手動で行う必要があります。移行前にこのアカウントでフォローエクスポートし、移行後すぐに移行先アカウントでインポートを行なってください。
          * リスト・ミュート・ブロックについても同様ですので、手動で移行する必要があります。
@@ -5397,7 +5456,7 @@ export interface Locale extends ILocale {
                  */
                 "title": string;
                 /**
-                 * 初めてノートを投稿した
+                 * 初めてキュア！を投稿した
                  */
                 "description": string;
                 /**
@@ -5407,141 +5466,141 @@ export interface Locale extends ILocale {
             };
             "_notes10": {
                 /**
-                 * いくつかのノート
+                 * いくつかのキュア！
                  */
                 "title": string;
                 /**
-                 * ノートを10回投稿した
+                 * キュア！を10回投稿した
                  */
                 "description": string;
             };
             "_notes100": {
                 /**
-                 * たくさんのノート
+                 * たくさんのキュア！
                  */
                 "title": string;
                 /**
-                 * ノートを100回投稿した
+                 * キュア！を100回投稿した
                  */
                 "description": string;
             };
             "_notes500": {
                 /**
-                 * ノートまみれ
+                 * キュア！まみれ
                  */
                 "title": string;
                 /**
-                 * ノートを500回投稿した
+                 * キュア！を500回投稿した
                  */
                 "description": string;
             };
             "_notes1000": {
                 /**
-                 * ノートの山
+                 * キュア！の山
                  */
                 "title": string;
                 /**
-                 * ノートを1,000回投稿した
+                 * キュア！を1,000回投稿した
                  */
                 "description": string;
             };
             "_notes5000": {
                 /**
-                 * 湧き出るノート
+                 * 湧き出るキュア！
                  */
                 "title": string;
                 /**
-                 * ノートを5,000回投稿した
+                 * キュア！を5,000回投稿した
                  */
                 "description": string;
             };
             "_notes10000": {
                 /**
-                 * スーパーノート
+                 * スーパーキュア！
                  */
                 "title": string;
                 /**
-                 * ノートを10,000回投稿した
+                 * キュア！を10,000回投稿した
                  */
                 "description": string;
             };
             "_notes20000": {
                 /**
-                 * ニードモアノート
+                 * ニードモアキュア！
                  */
                 "title": string;
                 /**
-                 * ノートを20,000回投稿した
+                 * キュア！を20,000回投稿した
                  */
                 "description": string;
             };
             "_notes30000": {
                 /**
-                 * ノートノートノート
+                 * キュア！キュア！キュア！
                  */
                 "title": string;
                 /**
-                 * ノートを30,000回投稿した
+                 * キュア！を30,000回投稿した
                  */
                 "description": string;
             };
             "_notes40000": {
                 /**
-                 * ノート工場
+                 * キュア！工場
                  */
                 "title": string;
                 /**
-                 * ノートを40,000回投稿した
+                 * キュア！を40,000回投稿した
                  */
                 "description": string;
             };
             "_notes50000": {
                 /**
-                 * ノートの惑星
+                 * キュア！の惑星
                  */
                 "title": string;
                 /**
-                 * ノートを50,000回投稿した
+                 * キュア！を50,000回投稿した
                  */
                 "description": string;
             };
             "_notes60000": {
                 /**
-                 * ノートクエーサー
+                 * キュア！クエーサー
                  */
                 "title": string;
                 /**
-                 * ノートを60,000回投稿した
+                 * キュア！を60,000回投稿した
                  */
                 "description": string;
             };
             "_notes70000": {
                 /**
-                 * ブラックノートホール
+                 * ブラックキュア！ホール
                  */
                 "title": string;
                 /**
-                 * ノートを70,000回投稿した
+                 * キュア！を70,000回投稿した
                  */
                 "description": string;
             };
             "_notes80000": {
                 /**
-                 * ノートギャラクシー
+                 * キュア！ギャラクシー
                  */
                 "title": string;
                 /**
-                 * ノートを80,000回投稿した
+                 * キュア！を80,000回投稿した
                  */
                 "description": string;
             };
             "_notes90000": {
                 /**
-                 * ノートバース
+                 * キュア！バース
                  */
                 "title": string;
                 /**
-                 * ノートを90,000回投稿した
+                 * キュア！を90,000回投稿した
                  */
                 "description": string;
             };
@@ -5551,7 +5610,7 @@ export interface Locale extends ILocale {
                  */
                 "title": string;
                 /**
-                 * ノートを100,000回投稿した
+                 * キュア！を100,000回投稿した
                  */
                 "description": string;
                 /**
@@ -5671,7 +5730,7 @@ export interface Locale extends ILocale {
                  */
                 "description": string;
                 /**
-                 * 諸君、私はノートが好きだ
+                 * 諸君、私はキュア！が好きだ
                  */
                 "flavor": string;
             };
@@ -5697,7 +5756,7 @@ export interface Locale extends ILocale {
             };
             "_login800": {
                 /**
-                 * ノートマスターⅠ
+                 * キュア！マスターⅠ
                  */
                 "title": string;
                 /**
@@ -5707,7 +5766,7 @@ export interface Locale extends ILocale {
             };
             "_login900": {
                 /**
-                 * ノートマスターⅡ
+                 * キュア！マスターⅡ
                  */
                 "title": string;
                 /**
@@ -5717,7 +5776,7 @@ export interface Locale extends ILocale {
             };
             "_login1000": {
                 /**
-                 * ノートマスターⅢ
+                 * キュア！マスターⅢ
                  */
                 "title": string;
                 /**
@@ -5735,7 +5794,7 @@ export interface Locale extends ILocale {
                  */
                 "title": string;
                 /**
-                 * 初めてノートをクリップした
+                 * 初めてキュア！をクリップした
                  */
                 "description": string;
             };
@@ -5745,7 +5804,7 @@ export interface Locale extends ILocale {
                  */
                 "title": string;
                 /**
-                 * 初めてノートをお気に入りに登録した
+                 * 初めてキュア！をお気に入りに登録した
                  */
                 "description": string;
             };
@@ -5755,7 +5814,7 @@ export interface Locale extends ILocale {
                  */
                 "title": string;
                 /**
-                 * 自分のノートが他の人からお気に入りに登録された
+                 * 自分のキュア！が他の人からお気に入りに登録された
                  */
                 "description": string;
             };
@@ -5983,7 +6042,7 @@ export interface Locale extends ILocale {
                  */
                 "title": string;
                 /**
-                 * 深夜にノートを投稿した
+                 * 深夜にキュア！を投稿した
                  */
                 "description": string;
                 /**
@@ -5997,7 +6056,7 @@ export interface Locale extends ILocale {
                  */
                 "title": string;
                 /**
-                 * 0分0秒にノートを投稿した
+                 * 0分0秒にキュア！を投稿した
                  */
                 "description": string;
                 /**
@@ -6011,7 +6070,7 @@ export interface Locale extends ILocale {
                  */
                 "title": string;
                 /**
-                 * 自分のノートを引用した
+                 * 自分のキュア！を引用した
                  */
                 "description": string;
             };
@@ -6071,7 +6130,7 @@ export interface Locale extends ILocale {
                  */
                 "title": string;
                 /**
-                 * 100文字以上のテキストを含むノートに投稿されてから3秒以内にリアクションした
+                 * 100文字以上のテキストを含むキュア！に投稿されてから3秒以内にリアクションした
                  */
                 "description": string;
             };
@@ -6388,6 +6447,10 @@ export interface Locale extends ILocale {
              */
             "canPublicNote": string;
             /**
+             * キュア！内の最大メンション数
+             */
+            "mentionMax": string;
+            /**
              * サーバー招待コードの発行
              */
             "canInvite": string;
@@ -6420,7 +6483,7 @@ export interface Locale extends ILocale {
              */
             "alwaysMarkNsfw": string;
             /**
-             * ノートのピン留めの最大数
+             * キュア！のピン留めの最大数
              */
             "pinMax": string;
             /**
@@ -6440,7 +6503,7 @@ export interface Locale extends ILocale {
              */
             "clipMax": string;
             /**
-             * クリップ内のノートの最大数
+             * クリップ内のキュア！の最大数
              */
             "noteEachClipsMax": string;
             /**
@@ -6464,7 +6527,7 @@ export interface Locale extends ILocale {
              */
             "canHideAds": string;
             /**
-             * ノート検索の利用
+             * キュア！検索の利用
              */
             "canSearchNotes": string;
             /**
@@ -6477,6 +6540,10 @@ export interface Locale extends ILocale {
             "avatarDecorationLimit": string;
         };
         "_condition": {
+            /**
+             * マニュアルロールにアサイン済み
+             */
+            "roleAssignedTo": string;
             /**
              * ローカルユーザー
              */
@@ -6663,7 +6730,7 @@ export interface Locale extends ILocale {
          */
         "adsSettings": string;
         /**
-         * リアルタイム更新中に広告を配信する間隔（ノートの個数）
+         * リアルタイム更新中に広告を配信する間隔（キュア！の個数）
          */
         "notesPerOneAd": string;
         /**
@@ -6965,7 +7032,7 @@ export interface Locale extends ILocale {
          */
         "nameOnly": string;
         /**
-         * チャンネル外へのリノートと引用リノートを許可する
+         * チャンネル外へのリキュア！と引用リキュア！を許可する
          */
         "allowRenoteToExternal": string;
     };
@@ -7003,7 +7070,7 @@ export interface Locale extends ILocale {
     };
     "_instanceMute": {
         /**
-         * ミュートしたサーバーのユーザーへの返信を含めて、設定したサーバーの全てのノートとRenoteをミュートします。
+         * ミュートしたサーバーのユーザーへの返信を含めて、設定したサーバーの全てのキュア！とRenoteをミュートします。
          */
         "instanceMuteDescription": string;
         /**
@@ -7011,7 +7078,7 @@ export interface Locale extends ILocale {
          */
         "instanceMuteDescription2": string;
         /**
-         * 設定したサーバーのノートを隠します。
+         * 設定したサーバーのキュア！を隠します。
          */
         "title": string;
         /**
@@ -7301,11 +7368,11 @@ export interface Locale extends ILocale {
     };
     "_sfx": {
         /**
-         * ノート
+         * キュア！
          */
         "note": string;
         /**
-         * ノート(自分)
+         * キュア！(自分)
          */
         "noteMy": string;
         /**
@@ -7613,7 +7680,7 @@ export interface Locale extends ILocale {
          */
         "write:mutes": string;
         /**
-         * ノートを作成・削除する
+         * キュア！を作成・削除する
          */
         "write:notes": string;
         /**
@@ -7777,7 +7844,7 @@ export interface Locale extends ILocale {
          */
         "write:admin:meta": string;
         /**
-         * モデレーションノートを操作する
+         * モデレーションキュア！を操作する
          */
         "write:admin:user-note": string;
         /**
@@ -7849,7 +7916,7 @@ export interface Locale extends ILocale {
          */
         "read:admin:queue": string;
         /**
-         * プロモーションノートを操作する
+         * プロモーションキュア！を操作する
          */
         "write:admin:promo": string;
         /**
@@ -7937,23 +8004,23 @@ export interface Locale extends ILocale {
     };
     "_antennaSources": {
         /**
-         * 全てのノート
+         * 全てのキュア！
          */
         "all": string;
         /**
-         * フォローしているユーザーのノート
+         * フォローしているユーザーのキュア！
          */
         "homeTimeline": string;
         /**
-         * 指定した一人または複数のユーザーのノート
+         * 指定した一人または複数のユーザーのキュア！
          */
         "users": string;
         /**
-         * 指定したリストのユーザーのノート
+         * 指定したリストのユーザーのキュア！
          */
         "userList": string;
         /**
-         * 指定した一人または複数のユーザーを除いた全てのノート
+         * 指定した一人または複数のユーザーを除いた全てのキュア！
          */
         "userBlacklist": string;
     };
@@ -7988,11 +8055,14 @@ export interface Locale extends ILocale {
         "saturday": string;
     };
     "_widgets": {
-        "koteitag": string;
         /**
          * プロフィール
          */
         "profile": string;
+        /**
+         * 実況用固定タグ
+         */
+        "koteitag": string;
         /**
          * サーバー情報
          */
@@ -8256,11 +8326,11 @@ export interface Locale extends ILocale {
     };
     "_postForm": {
         /**
-         * このノートに返信...
+         * このキュア！に返信...
          */
         "replyPlaceholder": string;
         /**
-         * このノートを引用...
+         * このキュア！を引用...
          */
         "quotePlaceholder": string;
         /**
@@ -8350,11 +8420,11 @@ export interface Locale extends ILocale {
     };
     "_exportOrImport": {
         /**
-         * 全てのノート
+         * 全てのキュア！
          */
         "allNotes": string;
         /**
-         * お気に入りにしたノート
+         * お気に入りにしたキュア！
          */
         "favoritedNotes": string;
         /**
@@ -8412,19 +8482,19 @@ export interface Locale extends ILocale {
          */
         "activeUsers": string;
         /**
-         * ノートの増減
+         * キュア！の増減
          */
         "notesIncDec": string;
         /**
-         * ローカルのノートの増減
+         * ローカルのキュア！の増減
          */
         "localNotesIncDec": string;
         /**
-         * リモートのノートの増減
+         * リモートのキュア！の増減
          */
         "remoteNotesIncDec": string;
         /**
-         * ノートの合計
+         * キュア！の合計
          */
         "notesTotal": string;
         /**
@@ -8458,11 +8528,11 @@ export interface Locale extends ILocale {
          */
         "usersTotal": string;
         /**
-         * ノートの増減
+         * キュア！の増減
          */
         "notes": string;
         /**
-         * ノートの累積
+         * キュア！の累積
          */
         "notesTotal": string;
         /**
@@ -8737,16 +8807,16 @@ export interface Locale extends ILocale {
              */
             "button": string;
             /**
-             * ノート埋め込み
+             * キュア！埋め込み
              */
             "note": string;
             "_note": {
                 /**
-                 * ノートID
+                 * キュア！ID
                  */
                 "id": string;
                 /**
-                 * ノートURLをペーストして設定することもできます。
+                 * キュア！URLをペーストして設定することもできます。
                  */
                 "idDescription": string;
                 /**
@@ -8848,13 +8918,17 @@ export interface Locale extends ILocale {
          */
         "reactedBySomeUsers": ParameterizedString<"n">;
         /**
-         * {n}人がリノートしました
+         * {n}人がリキュア！しました
          */
         "renotedBySomeUsers": ParameterizedString<"n">;
         /**
          * {n}人にフォローされました
          */
         "followedBySomeUsers": ParameterizedString<"n">;
+        /**
+         * 通知の履歴をリセットする
+         */
+        "flushNotification": string;
         "_types": {
             /**
              * すべて
@@ -9109,7 +9183,7 @@ export interface Locale extends ILocale {
              */
             "followed": string;
             /**
-             * ノートを投稿したとき
+             * キュア！を投稿したとき
              */
             "note": string;
             /**
@@ -9176,7 +9250,7 @@ export interface Locale extends ILocale {
          */
         "updateServerSettings": string;
         /**
-         * モデレーションノート更新
+         * ユーザーのモデレーションキュア！更新
          */
         "updateUserNote": string;
         /**
@@ -9184,7 +9258,7 @@ export interface Locale extends ILocale {
          */
         "deleteDriveFile": string;
         /**
-         * ノートを削除
+         * キュア！を削除
          */
         "deleteNote": string;
         /**
@@ -9223,6 +9297,10 @@ export interface Locale extends ILocale {
          * リモートサーバーを再開
          */
         "unsuspendRemoteInstance": string;
+        /**
+         * リモートサーバーのモデレーションキュア！更新
+         */
+        "updateRemoteInstanceNote": string;
         /**
          * ファイルをセンシティブ付与
          */
@@ -9294,7 +9372,7 @@ export interface Locale extends ILocale {
          */
         "uploadedAt": string;
         /**
-         * 添付されているノート
+         * 添付されているキュア！
          */
         "attachedNotes": string;
         /**
@@ -9480,16 +9558,6 @@ export interface Locale extends ILocale {
             "description": string;
         };
     };
-    "_koteitag": {
-        "clearTags": string;
-        "air": string;
-        "livecure": string;
-        "episodeBrowser": string;
-        "fetch": string;
-        "episodePrefix": string;
-        "episodeSuffix": string;
-        "confirmMessage": string;
-        "successMessage": string;
     "_hemisphere": {
         /**
          * 北半球
@@ -9669,6 +9737,14 @@ export interface Locale extends ILocale {
          * 変則なし
          */
         "disallowIrregularRules": string;
+        /**
+         * 盤面に行・列番号を表示
+         */
+        "showBoardLabels": string;
+        /**
+         * 石をアイコンにする
+         */
+        "useAvatarAsStone": string;
     };
     "_offlineScreen": {
         /**
@@ -9679,7 +9755,6 @@ export interface Locale extends ILocale {
          * サーバーに接続できません
          */
         "header": string;
->>>>>>> tag2024.2.0
     };
 }
 declare const locales: {
