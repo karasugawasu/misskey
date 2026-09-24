@@ -11,7 +11,10 @@ SPDX-License-Identifier: AGPL-3.0-only
 	<div class="_spacer" style="--MI_SPACER-min: 20px; --MI_SPACER-max: 28px;">
 		<div class="_gaps_m">
 			<div v-if="instance.disableRegistration || instance.federation !== 'all'" class="_gaps_s">
-				<MkInfo v-if="instance.disableRegistration" warn>{{ i18n.ts.invitationRequiredToRegister }}</MkInfo>
+				<MkInfo v-if="instance.disableRegistration" warn>
+					{{ i18n.ts.invitationRequiredToRegister }}
+					<MkLink v-if="instance.inquiryUrl" :url="instance.inquiryUrl">{{ i18n.ts.inquiry }}</MkLink>
+				</MkInfo>
 				<MkInfo v-if="instance.federation === 'specified'" warn>{{ i18n.ts.federationSpecified }}</MkInfo>
 				<MkInfo v-else-if="instance.federation === 'none'" warn>{{ i18n.ts.federationDisabled }}</MkInfo>
 			</div>
@@ -49,14 +52,14 @@ SPDX-License-Identifier: AGPL-3.0-only
 
 				<a href="https://misskey-hub.net/docs/for-users/onboarding/warning/" class="_link" target="_blank">{{ i18n.ts.basicNotesBeforeCreateAccount }} <i class="ti ti-external-link"></i></a>
 
-				<MkSwitch :modelValue="agreeNote" style="margin-top: 16px;" data-cy-signup-rules-notes-agree @update:modelValue="updateAgreeNote">{{ i18n.ts.agree }}</MkSwitch>
+				<MkSwitch :modelValue="agreeNote" style="margin-top: 16px;" data-testid="signup-rules-notes-agree" @update:modelValue="updateAgreeNote">{{ i18n.ts.agree }}</MkSwitch>
 			</MkFolder>
 
 			<div v-if="!agreed" style="text-align: center;">{{ i18n.ts.pleaseAgreeAllToContinue }}</div>
 
 			<div class="_buttonsCenter">
 				<MkButton inline rounded @click="emit('cancel')">{{ i18n.ts.cancel }}</MkButton>
-				<MkButton inline primary rounded gradate :disabled="!agreed" data-cy-signup-rules-continue @click="emit('done')">{{ i18n.ts.continue }} <i class="ti ti-arrow-right"></i></MkButton>
+				<MkButton inline primary rounded gradate :disabled="!agreed" data-testid="signup-rules-continue" @click="emit('done')">{{ i18n.ts.continue }} <i class="ti ti-arrow-right"></i></MkButton>
 			</div>
 		</div>
 	</div>
@@ -71,6 +74,7 @@ import MkButton from '@/components/MkButton.vue';
 import MkFolder from '@/components/MkFolder.vue';
 import MkSwitch from '@/components/MkSwitch.vue';
 import MkInfo from '@/components/MkInfo.vue';
+import MkLink from '@/components/MkLink.vue';
 import * as os from '@/os.js';
 
 const availableServerRules = instance.serverRules.length > 0;

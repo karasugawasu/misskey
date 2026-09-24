@@ -41,6 +41,7 @@ import type Channel from './channel.js';
 import type { EventEmitter } from 'events';
 
 const MAX_CHANNELS_PER_CONNECTION = 32;
+const MAX_SUBSCRIBING_NOTES_PER_CONNECTION = 1536;
 
 /**
  * Main stream connection
@@ -53,7 +54,7 @@ export default class Connection {
 	private wsConnection: WebSocket.WebSocket;
 	public subscriber: StreamEventEmitter;
 	private channels: Map<string, Channel> = new Map();
-	private subscribingNotes: Partial<Record<string, number>> = {};
+	private subscribingNotes: Map<string, number> = new Map();
 	public userProfile: MiUserProfile | null = null;
 	public following: Record<string, Pick<MiFollowing, 'withReplies'> | undefined> = {};
 	public followingChannels: Set<string> = new Set();
@@ -177,9 +178,22 @@ export default class Connection {
 		if (!isJsonObject(payload)) return;
 		if (!payload.id || typeof payload.id !== 'string') return;
 
-		const current = this.subscribingNotes[payload.id] ?? 0;
+		const current = this.subscribingNotes.get(payload.id) ?? 0;
+
+		if (current === 0 && this.subscribingNotes.size >= MAX_SUBSCRIBING_NOTES_PER_CONNECTION) {
+			// 新規購読 かつ 購読上限に達している場合は、最も古い購読を解除して新規購読を追加する
+			const oldestId = this.subscribingNotes.keys().next().value;
+			if (oldestId != null) {
+				this.subscriber.off(`noteStream:${oldestId}`, this.onNoteStreamMessage);
+				this.subscribingNotes.delete(oldestId);
+			}
+		} else {
+			// access 順を更新して LRU を保つ
+			this.subscribingNotes.delete(payload.id);
+		}
+
 		const updated = current + 1;
-		this.subscribingNotes[payload.id] = updated;
+		this.subscribingNotes.set(payload.id, updated);
 
 		if (updated === 1) {
 			this.subscriber.on(`noteStream:${payload.id}`, this.onNoteStreamMessage);
@@ -194,18 +208,21 @@ export default class Connection {
 		if (!isJsonObject(payload)) return;
 		if (!payload.id || typeof payload.id !== 'string') return;
 
-		const current = this.subscribingNotes[payload.id];
+		const current = this.subscribingNotes.get(payload.id);
 		if (current == null) return;
 		const updated = current - 1;
-		this.subscribingNotes[payload.id] = updated;
 		if (updated <= 0) {
-			delete this.subscribingNotes[payload.id];
+			this.subscribingNotes.delete(payload.id);
 			this.subscriber.off(`noteStream:${payload.id}`, this.onNoteStreamMessage);
+		} else {
+			this.subscribingNotes.set(payload.id, updated);
 		}
 	}
 
 	@bindThis
 	private async onNoteStreamMessage(data: GlobalEvents['note']['payload']) {
+		// This code must always be synchronized with Channel.isNoteVisibleForMe
+		// and the checks in QueryService.generateVisibilityQuery.
 		// 自分自身ではないかつ
 		if (data.body.userId !== this.user?.id) {
 			// 公開範囲が指名で自分が含まれてない
@@ -213,9 +230,22 @@ export default class Connection {
 				return;
 			}
 
-			// 公開範囲がフォロワーで自分がフォロワーでない
-			if (data.body.visibility === 'followers' && !Object.hasOwn(this.following, data.body.userId)) {
-				return;
+			// 公開範囲がフォロワーで、フォロワーでも例外 (自分の投稿へのリプライ / 自分へのメンション) でもない
+			if (data.body.visibility === 'followers') {
+				const meId = this.user?.id ?? null;
+				if (meId == null) return;
+
+				const isFollower = Object.hasOwn(this.following, data.body.userId);
+				// 自分の投稿に対するリプライ
+				// ⚠ 旧バージョンの producer が publish した payload には無いことがある (ローリング更新中)。
+				// 例外側が欠けても「フォロワーなら届く」までは維持する
+				const isReplyToMe = meId === data.body.replyUserId;
+				// 自分へのメンション
+				const isMentioningMe = data.body.mentions?.includes(meId) ?? false;
+
+				if (!isFollower && !isReplyToMe && !isMentioningMe) {
+					return;
+				}
 			}
 		}
 
@@ -381,9 +411,16 @@ export default class Connection {
 	@bindThis
 	public dispose() {
 		if (this.fetchIntervalId) clearInterval(this.fetchIntervalId);
+
 		for (const c of this.channels.values()) {
 			if (c.dispose) c.dispose();
 		}
+		this.channels.clear();
+
+		for (const id of this.subscribingNotes.keys()) {
+			this.subscriber.off(`noteStream:${id}`, this.onNoteStreamMessage);
+		}
+		this.subscribingNotes.clear();
 	}
 }
 

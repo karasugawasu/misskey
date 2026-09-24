@@ -8,41 +8,33 @@
 
 人間 contributor 向けの一般規約 (Issue / PR の出し方、ActivityPub 拡張など) は [CONTRIBUTING.md](CONTRIBUTING.md) を参照。本ファイルは AI が **コードを書く・直す・出す** 際に踏み外してはいけない事項に絞る。
 
+**このリポジトリはフォーク** (`pooza/misskey`、デフォルトブランチ `daisskey`) で、upstream に無い機能と周辺サービス連携を持つ。**背景・独自改変・モロヘイヤ連携・CI の実態は [docs/CLAUDE.md](docs/CLAUDE.md) が正本。**本ファイルが「守るべき手順」を持ち、docs/CLAUDE.md が「なぜそうなっているか」を持つ。作業前に一度目を通すこと。
+
 ---
 
 ## 絶対にやってはいけない事
 
 違反すると CI 失敗 / 本番事故 / 共有環境破壊 になる。順守すること。
 
+⚠ **この 16 項目は upstream (misskey-dev/misskey) 由来**で、upstream の前提 (多人数・`main` / `develop` 運用) で書かれている。**フォークの実態に合わない箇所には `⚠ フォーク:` で始まる注記を付けてある**ので、原文と注記の両方を読むこと (#434)。
+
 ### コード・データ関連
 
 1. **SPDX ヘッダー欠落のまま AGPL 管轄ディレクトリへ新規ファイルを追加しない**
    - 対象: 新規 `.ts` / `.js` / `.cjs` / `.mjs` / `.vue` / `.scss` / `.html` ファイル
-   - CI の対象判定は [.github/workflows/check-spdx-license-id.yml](.github/workflows/check-spdx-license-id.yml) の `directories` 配列を参照 (`*.config.{ts,js,cjs,mjs}` と `*eslint*` は除外)
-   - 欠落すると CI (`spdx` ジョブ) が失敗する
+   - 対象と判定は [scripts/check-spdx.mjs](scripts/check-spdx.mjs) が一元管理する
+   - `node scripts/check-spdx.mjs` を 1 回実行し、欠落は `--fix` で補う。
+     `SPDX: OK` なら追加の目視確認はしない
+   - 欠落すると CI (`Check SPDX-License-Identifier`) が失敗する。この workflow は同じ script を `--ci` で呼ぶので、**ローカルと CI で判定がずれない** (#433)
    - `packages/misskey-js` は MIT ライセンスのサブパッケージなので、この AGPL ヘッダーを一律に付けない (サブパッケージ固有の `package.json` / `LICENSE` / 既存ファイルのヘッダーに従う)
-
-   `.ts` / `.js` / `.cjs` / `.mjs` / `.scss`:
-
-   ```text
-   /*
-    * SPDX-FileCopyrightText: syuilo and misskey-project
-    * SPDX-License-Identifier: AGPL-3.0-only
-    */
-   ```
-
-   `.vue` / `.html` (HTML コメント形式):
-
-   ```text
-   <!--
-   SPDX-FileCopyrightText: syuilo and misskey-project
-   SPDX-License-Identifier: AGPL-3.0-only
-   -->
-   ```
 
 2. **`locales/ja-JP.yml` 以外の locale YAML を手動編集しない**
    - 他言語ファイル (`en-US.yml` など `ja-JP.yml` 以外すべて) は Crowdin の自動配信先。手動編集すると次の同期で上書き喪失する
    - 根拠: [locales/README.md](locales/README.md) と [crowdin.yml](crowdin.yml) (`ja-JP.yml` → `locales/%locale%.yml` の同期設定)
+   - **⚠ 例外: フォーク独自キーだけは `en-US.yml` にも手で足す** (`_tagset` など、upstream にも Crowdin にも存在しないキー)
+     - 理由: [packages/i18n/src/index.ts](packages/i18n/src/index.ts) の `build()` は `case 'en-US': merge(ja-JP, en-US)` なので、**en-US に無いキーは日本語のまま英語 UI に出る**。Crowdin プロジェクトは upstream (misskey-dev) 側にあり、このフォークの独自キーは配信対象にならないため、足さない限り永久に埋まらない
+     - 前例: `_tagset` ブロックは de5424e13c (#384) で `en-US.yml` に手で追加され、以降の upstream 追従 (2026.6.0 / 2026.7.0) を無事に通過している
+     - **この例外は独自キーに閉じる。** upstream にも存在するキーの翻訳を `en-US.yml` で直すのは従来どおり禁止 (Crowdin に上書きされる)
 
 3. **マージ済 migration ファイルを編集しない**
    - 対象: `packages/backend/migration/{unixMs}-{name}.js` のうち、既に `develop` / `master` にマージされたもの
@@ -52,10 +44,14 @@
 
 ### Git / リポジトリ操作
 
-4. **`git push --force` / `--force-with-lease` を `main` / `develop` / `master` にしない** (他人の作業を消す可能性)
-5. **`git commit --no-verify` で hook をスキップしない** (lint / format / SPDX チェックを潰す)
+4. **`git push --force` / `--force-with-lease` を `daisskey` / `develop` / `main` / `master` にしない** (他人の作業を消す可能性)
+   - ⚠ フォーク: **`daisskey` がこのフォークのデフォルトブランチ**で、`main` は存在しない。upstream の原文は `main` / `develop` / `master` の列挙で、**最も壊してはいけない `daisskey` が保護から漏れていた** (#434)
+5. **`git commit --no-verify` で hook をスキップしない**
+   - ⚠ フォーク: 2026-09-04 時点で**実効的な git hook は無い** (`.git/hooks/` は sample のみ、`core.hooksPath` 未設定、husky / lefthook も未導入)。**現状この条項は空振りする**が、hook を入れたときに効くよう残す
 6. **マージ済 / プッシュ済コミットを `git commit --amend` で書き換えない** (履歴の整合性が壊れる)
+   - ⚠ フォーク: **例外は「自分が push した直後の、レビューがまだ付いていない未マージ PR ブランチ」だけ。**単独コントリビューターで他人が fetch していないため、壊れる整合性が無い。⚠⚠ **レビューが付いた後とマージ後は従来どおり禁止**（指摘の宛先コミットが消える）
 7. **他人のブランチを `git reset --hard` / `git branch -D` で破壊しない**
+   - ⚠ フォーク: 単独コントリビューターなので現状は空振り。upstream へ持ち帰る可能性を考えて残す
 8. **`git config` をユーザーに無断で書き換えない** (特に `user.name` / `user.email` / `commit.gpgsign`)
 
 ### Issue / PR / 外部送信
@@ -80,12 +76,24 @@
 
 各エージェントは [shipping-misskey-change スキル](.claude/skills/shipping-misskey-change/SKILL.md) を参照すること。スキルが利用できない環境でも、以下のチェックは必ず実施すること:
 
-1. **lint**: `pnpm lint` が通る (typecheck + eslint, 全パッケージ)
+⚠ 1 / 4 / 6 は `node scripts/check-shipping.mjs --base daisskey` で一括実行できる (2026.9.0 で upstream から入った)。**`--base daisskey` を省略しないこと** — 既定の統合先に `daisskey` が入っておらず、`develop` (upstream 追従用ミラー) と比べてしまう。6 の en-US 例外もこの script は知らない (→ [SKILL.md](.claude/skills/shipping-misskey-change/SKILL.md) の「このフォークでの差し引き」)
+
+1. **lint / test**: ESLint 対象の変更ファイルへ package root から `eslint --quiet` を最後に 1 回実行し、実装変更には最も近い test を選んで実行する。
+   package / repo 全体 lint と広域 test は任意
 2. **backend API 変更時**: `pnpm build-misskey-js-with-types` を実行し `packages/misskey-js/src/autogen/` の差分も commit に含めた
+   - ⚠ **クリーンチェックアウトでは先に `pnpm --filter misskey-js build` が要る。** このスクリプトは `--filter=!misskey-js` で misskey-js を事前ビルドから除外するが、続く `generate-api-json` が読み込む backend のバンドルは `misskey-js/built` を import するため、`packages/misskey-js/built/` が無いと `ERR_MODULE_NOT_FOUND` で落ちる (一度でも `pnpm build` していれば起きない)
+   - CI では `.github/workflows/check-misskey-js-autogen.yml` がこの再生成を実行し、`packages/misskey-js/src/autogen/` に差分が出たら fail する (#423)
 3. **entity / migration 変更時**: `pnpm --filter backend check-migrations` が pending DDL 0 件で通る / 新規 migration は `up()` と `down()` 両方実装済
-4. **新規ファイル**: SPDX ヘッダーを付けた (`.vue` / `.html` は HTML コメント形式、それ以外は TS コメント形式)
+4. **新規ファイル**: SPDX ヘッダーを付けた (`.vue` / `.html` は HTML コメント形式、それ以外は TS コメント形式)。`node scripts/check-spdx.mjs` が `SPDX: OK` を返すことで確認する (欠落は `--fix` で補う)
 5. **ユーザー影響のある変更**: `CHANGELOG.md` の `## Unreleased` 配下の該当サブセクション (`### General` / `### Client` / `### Server`) に `- <Feat|Enhance|Fix>: <概要>` を 1 行追記
-6. **locale safety**: `locales/` を編集した場合、`git diff --name-only develop -- 'locales/*.yml' | grep -v '^locales/ja-JP\.yml$'` が空 (ja-JP.yml 以外に差分が無い) ことを確認
+   - ⚠ フォーク: **判定基準は「upstream へ PR を出すか」であって、「フォーク独自機能か」ではない。**フォーク内で閉じる変更では、upstream 由来のファイルを upstream 由来の設定値で直すものであっても追記しない (#434)
+     - 理由: `CHANGELOG.md` は upstream 所有のファイルで、追従のたびに `## Unreleased` が `## <version>` へ畳まれる。フォークのエントリを置くと**毎回の追従で衝突し、upstream のリリースノートに紛れ込む**。このフォークは独自のリリースノートを publish していない。この理屈は変更が独自機能かどうかに依存しない
+     - ⚠⚠ **`WidgetTagset` のような独自機能は「例」であって条件ではない。**「upstream にもあるファイル / フィールドを触ったから追記が要る」という読み方をしない
+     - 前例: フォーク側のコミットで `CHANGELOG.md` を編集したものは 1 件も無い (`git log --no-merges daisskey --not upstream/develop upstream/master -- CHANGELOG.md` が空)
+   - **このフォークは既定で upstream へ PR を出さない** ([docs/CLAUDE.md](docs/CLAUDE.md)「PR の base は必ず `pooza/misskey:daisskey`。upstream へは送らない」)。したがって追記が要る場面は実質ほぼ無く、**upstream へ出すと決めたときにだけ足す**
+6. **locale safety**: `locales/` を編集した場合、`git diff --name-only daisskey -- 'locales/*.yml' | grep -v '^locales/ja-JP\.yml$'` の出力が空であることを確認
+   - 出力が `locales/en-US.yml` **だけ** で、その差分がフォーク独自キー (`_tagset` 等) に閉じている場合は OK (上記「絶対にやってはいけない事」#2 の例外)。それ以外のファイルが出たら止める
+   - ⚠ 比較先は **`daisskey`** (このフォークのベースブランチ)。`develop` は upstream 追従用なので、そこと比べるとフォーク独自キーが丸ごと差分に出てしまう
 
 ### Validation commands
 
@@ -93,13 +101,13 @@
 
 | 用途 | コマンド |
 | --- | --- |
-| 全体 lint (typecheck + eslint) | `pnpm lint` |
+| 全体 lint (任意) | `pnpm lint` |
 | Backend unit test | `pnpm --filter backend test` |
 | Backend e2e test | `pnpm --filter backend test:e2e` |
 | Backend federation test | `pnpm --filter backend test:fed` |
 | Frontend unit test | `pnpm --filter frontend test` |
 | Migration 差分検査 (pending DDL) | `pnpm --filter backend check-migrations` |
-| `misskey-js` 再生成 (API 変更後必須) | `pnpm build-misskey-js-with-types` |
+| `misskey-js` 再生成 (API 変更後必須) | `pnpm --filter misskey-js build && pnpm build-misskey-js-with-types` |
 | 全体ビルド | `pnpm build` |
 | 開発サーバー (backend + frontend watch) | `pnpm dev` |
 

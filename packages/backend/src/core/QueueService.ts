@@ -81,8 +81,8 @@ const REPEATABLE_SYSTEM_JOB_DEF = [{
 	pattern: '30 * * * *',
 }, {
 	name: 'cleanRemoteNotes',
-	// 毎日午前4時に起動(最も人の少ない時間帯)
-	pattern: '0 4 * * *',
+	// 毎日午前2時に起動(最も人の少ない時間帯)
+	pattern: '0 2 * * *',
 }];
 
 function parseRedisInfo(infoText: string): Record<string, string> {
@@ -901,7 +901,7 @@ export class QueueService {
 		const isPaused = await queue.isPaused();
 		const metrics_completed = await queue.getMetrics('completed', 0, MetricsTime.ONE_WEEK);
 		const metrics_failed = await queue.getMetrics('failed', 0, MetricsTime.ONE_WEEK);
-		const db = parseRedisInfo(await (await queue.client).info());
+		const db = parseRedisInfo(await (await queue.getBackend().client).info());
 
 		return {
 			name: queueType,

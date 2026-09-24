@@ -19,14 +19,17 @@ SPDX-License-Identifier: AGPL-3.0-only
 				<div v-html="instance.description || i18n.ts.headlineMisskey"></div>
 			</div>
 			<div v-if="instance.disableRegistration || instance.federation !== 'all'" :class="$style.mainWarn" class="_gaps_s">
-				<MkInfo v-if="instance.disableRegistration" warn>{{ i18n.ts.invitationRequiredToRegister }}</MkInfo>
+				<MkInfo v-if="instance.disableRegistration" warn>
+					{{ i18n.ts.invitationRequiredToRegister }}
+					<MkLink v-if="instance.inquiryUrl" :url="instance.inquiryUrl">{{ i18n.ts.inquiry }}</MkLink>
+				</MkInfo>
 				<MkInfo v-if="instance.federation === 'specified'" warn>{{ i18n.ts.federationSpecified }}</MkInfo>
 				<MkInfo v-else-if="instance.federation === 'none'" warn>{{ i18n.ts.federationDisabled }}</MkInfo>
 			</div>
 			<div class="_gaps_s" :class="$style.mainActions">
-				<MkButton :class="$style.mainAction" full rounded gradate data-cy-signup style="margin-right: 12px;" @click="signup()">{{ i18n.ts.joinThisServer }}</MkButton>
+				<MkButton :class="$style.mainAction" full rounded gradate data-testid="signup" style="margin-right: 12px;" @click="signup()">{{ i18n.ts.joinThisServer }}</MkButton>
 				<MkButton :class="$style.mainAction" full rounded type="a" target="_blank" rel="noopener" href="https://misskey-hub.net/servers/">{{ i18n.ts.exploreOtherServers }}</MkButton>
-				<MkButton :class="$style.mainAction" full rounded data-cy-signin @click="signin()">{{ i18n.ts.login }}</MkButton>
+				<MkButton :class="$style.mainAction" full rounded data-testid="signin" @click="signin()">{{ i18n.ts.login }}</MkButton>
 			</div>
 		</div>
 	</div>
@@ -62,6 +65,7 @@ import XSignupDialog from '@/components/MkSignupDialog.vue';
 import MkButton from '@/components/MkButton.vue';
 import MkStreamingNotesTimeline from '@/components/MkStreamingNotesTimeline.vue';
 import MkInfo from '@/components/MkInfo.vue';
+import MkLink from '@/components/MkLink.vue';
 import * as os from '@/os.js';
 import { misskeyApi } from '@/utility/misskey-api.js';
 import { i18n } from '@/i18n.js';
